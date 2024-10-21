@@ -11,7 +11,7 @@ jobs:
     defaults:
       run:
         shell: bash
-        working-directory: ${{ github.workspace }}/app
+        working-directory: /app
 
     steps:
       - name: Test Workflow
