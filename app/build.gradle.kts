@@ -1,5 +1,6 @@
 plugins {
     application
+    jacoco
 }
 
 group = "hexlet.code"
