@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="hexlet.code.schemas.StringSchemaTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-10-25T22:18:04" hostname="alex-Z97X-Gaming-3" time="0.035">
+  <properties/>
+  <testcase name="containsTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.026"/>
+  <testcase name="requiredTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.003"/>
+  <testcase name="minLengthTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

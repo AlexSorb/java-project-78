@@ -23,7 +23,8 @@ public class StringSchema {
     }
 
     public StringSchema minLength(int minLength) {
-        this.minLength = minLength;
+        this.minLength = Math.max(minLength, 0);
+        flagLength = true;
         return this;
     }
 
@@ -39,7 +40,11 @@ public class StringSchema {
         }
 
         if (flagLength) {
-            state = string.length() >= minLength;
+            if (string == null) {
+                state = false;
+            } else {
+                state = string.length() >= minLength;
+            }
         }
 
         if (flagContains) {
