@@ -36,7 +36,7 @@ public class StringSchema {
 
     public boolean isValid(String string) {
         if (flagRequired) {
-            state = string != null;
+            state = string != null && !string.isEmpty();
         }
 
         if (flagLength) {
@@ -48,7 +48,11 @@ public class StringSchema {
         }
 
         if (flagContains) {
-            state = string.contains(searchString);
+            if (searchString == null || string == null) {
+                state = false;
+            } else {
+                state = string.contains(searchString);
+            }
         }
 
         return state;
