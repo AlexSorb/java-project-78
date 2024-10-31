@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="hexlet.code.schemas.StringSchemaTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-10-31T22:46:04" hostname="alex-Z97X-Gaming-3" time="0.055">
+<testsuite name="hexlet.code.schemas.StringSchemaTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2024-10-31T23:03:45" hostname="alex-Z97X-Gaming-3" time="0.036">
   <properties/>
-  <testcase name="containsTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.04"/>
+  <testcase name="containsTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.028"/>
   <testcase name="requiredTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.001"/>
-  <testcase name="fullTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.002"/>
-  <testcase name="minLengthTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.002"/>
+  <testcase name="fullTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.001"/>
+  <testcase name="minLengthTest()" classname="hexlet.code.schemas.StringSchemaTest" time="0.001"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
