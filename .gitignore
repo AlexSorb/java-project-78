@@ -1,6 +1,7 @@
 # Intellij IDEA
-./.idea
 .idea
 
 # Gradle
-./app/build
+.gradle
+app/.gradle
+**/build/
