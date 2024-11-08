@@ -1,9 +1,6 @@
 package hexlet.code.schemas;
 
-public class NumberSchema {
-    private boolean state = true;
-
-    private boolean flagRequired = false;
+public class NumberSchema extends BaseSchema<Integer>{
     private boolean flagPositive = false;
     private boolean flagRange = false;
     private Integer left;
@@ -11,7 +8,7 @@ public class NumberSchema {
 
     // Проверка на null
     public NumberSchema required() {
-        flagRequired = true;
+        super.required();
         return this;
     }
 
@@ -28,24 +25,16 @@ public class NumberSchema {
         return this;
     }
     public boolean isValid(Integer number) {
-        if (flagRequired) {
-            if (state == true) {
-                state = number!= null;
-            }
-        }
+        boolean isValid = super.isValid(number);
 
         if (flagPositive) {
-            if (state == true) {
-                state = number > 0;
-            }
+            isValid = number > 0;
         }
 
         if (flagRange) {
-            if (state == true) {
-                state = number >= left && number <= right;
-            }
+            isValid = number >= left && number <= right;
         }
 
-        return state;
+        return isValid;
     }
 }
