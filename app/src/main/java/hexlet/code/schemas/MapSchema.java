@@ -3,8 +3,10 @@ package hexlet.code.schemas;
 import java.util.Map;
 
 public class MapSchema extends BaseSchema<Map<? extends Object, ? extends Object>> {
-    boolean sizeOfFlag = false;
-    int checkedSize = 0;
+    private boolean sizeOfFlag = false;
+    private int checkedSize = 0;
+    private boolean shapeFlag = false;
+
     public MapSchema sizeof(int size) {
         sizeOfFlag = true;
         checkedSize = size;
@@ -19,5 +21,9 @@ public class MapSchema extends BaseSchema<Map<? extends Object, ? extends Object
             isValid = mapSize == checkedSize;
         }
         return isValid;
+    }
+
+    public void shape(Map<? extends Object, BaseSchema<String>> schema) {
+        shapeFlag = true;
     }
 }
