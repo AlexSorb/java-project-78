@@ -2,9 +2,9 @@ package hexlet.code.schemas;
 
 public class StringSchema extends BaseSchema<String> {
 
-    private boolean flagLength = false;
+    private boolean lengthFlag = false;
     private int minLength;
-    private boolean flagContains = false;
+    private boolean containsFlag = false;
     private String searchString;
 
 
@@ -14,12 +14,12 @@ public class StringSchema extends BaseSchema<String> {
     }
     public StringSchema minLength(int minLength) {
         this.minLength = Math.max(minLength, 0);
-        flagLength = true;
+        lengthFlag = true;
         return this;
     }
 
     public StringSchema contains(String searchString) {
-        flagContains = true;
+        containsFlag = true;
         this.searchString = searchString;
         return this;
     }
@@ -27,7 +27,7 @@ public class StringSchema extends BaseSchema<String> {
     public boolean isValid(String string) {
         boolean isValid = super.isValid(string);
 
-        if (flagLength) {
+        if (lengthFlag) {
             if (string == null) {
                 isValid = false;
             } else {
@@ -35,7 +35,7 @@ public class StringSchema extends BaseSchema<String> {
             }
         }
 
-        if (flagContains) {
+        if (containsFlag) {
             if (searchString == null || string == null) {
                 isValid = false;
             } else {
