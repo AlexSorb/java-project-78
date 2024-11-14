@@ -27,6 +27,12 @@ public class StringSchema extends BaseSchema<String> {
     public boolean isValid(String string) {
         boolean isValid = super.isValid(string);
 
+        if(flagRequired) {
+            if (string != null) {
+                isValid = !string.equals("");
+            }
+        }
+
         if (lengthFlag) {
             if (string == null) {
                 isValid = false;

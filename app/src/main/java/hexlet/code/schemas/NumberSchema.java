@@ -28,7 +28,7 @@ public class NumberSchema extends BaseSchema<Integer>{
         boolean isValid = super.isValid(number);
 
         if (flagPositive) {
-            isValid = number > 0;
+            isValid = number == null ? true : number > 0;
         }
 
         if (flagRange) {
