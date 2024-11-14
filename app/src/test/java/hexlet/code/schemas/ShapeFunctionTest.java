@@ -12,7 +12,7 @@ import java.util.Map;
 public class ShapeFunctionTest {
     private Validator validator = new Validator();
     private MapSchema schema;
-    private HashMap<String, BaseSchema<String>> schemas = new HashMap<>();
+    private HashMap<String, BaseSchema> schemas = new HashMap<>();
 
     @BeforeEach
     public void initialization() {
