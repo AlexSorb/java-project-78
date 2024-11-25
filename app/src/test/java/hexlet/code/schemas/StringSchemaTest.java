@@ -43,13 +43,12 @@ public class StringSchemaTest {
 
         schema.minLength(-100);
         assertTrue(schema.isValid(ANOTHER_STRING));
-
         assertFalse(schema.isValid(null));
     }
 
     @Test
     public void containsTest() {
-        // Проверить проверить полную функциональную работу
+
         schema.contains("what");
         assertTrue(schema.isValid(ANOTHER_STRING));
         schema.contains("wh");
