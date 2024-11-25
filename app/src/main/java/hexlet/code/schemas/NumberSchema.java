@@ -6,24 +6,33 @@ public class NumberSchema extends BaseSchema<Integer>{
     private Integer left;
     private Integer right;
 
-    // Проверка на null
     public NumberSchema required() {
         super.required();
         return this;
     }
 
-    // Проверка на положетельное число
     public NumberSchema positive() {
         flagPositive = true;
         return this;
     }
 
-    public NumberSchema range(Integer left, Integer right){
+    public NumberSchema range(Integer left, Integer right) throws IllegalArgumentException {
+        if (left == null || right == null) {
+            throw new IllegalArgumentException("Граница диапазона не может быть null");
+        }
+
+        if (left > right) {
+            left = left + right;
+            right = left - right;
+            left = left - right;
+        }
+
         flagRange = true;
         this.left = left;
         this.right = right;
         return this;
     }
+
     public boolean isValid(Integer number) {
         boolean isValid = super.isValid(number);
 
