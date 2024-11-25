@@ -1,5 +1,5 @@
 plugins {
-    application
+    java
     jacoco
     id("io.freefair.lombok") version "8.6"
     id("checkstyle")
@@ -12,10 +12,6 @@ repositories {
     mavenCentral()
 }
 
-application {
-    mainClass.set("hexlet.code.App")
-}
-
 dependencies {
     testImplementation(platform("org.junit:junit-bom:5.10.0"))
     testImplementation("org.junit.jupiter:junit-jupiter")
@@ -26,13 +22,11 @@ tasks.test {
 }
 
 tasks.test {
-    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
-}
-tasks.jacocoTestReport {
-    dependsOn(tasks.test) // tests are required to run before generating the report
+    finalizedBy(tasks.jacocoTestReport)
 }
 
 tasks.jacocoTestReport {
+    dependsOn(tasks.test)
     reports {
         xml.required = true
         csv.required = false
