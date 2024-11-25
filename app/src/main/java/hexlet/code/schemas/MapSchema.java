@@ -14,6 +14,11 @@ public class MapSchema extends BaseSchema<Map<? extends Object, ? extends Object
         return this;
     }
 
+    public void shape(Map<? extends Object, BaseSchema> schema) {
+        shapeFlag = true;
+        this.schemas = schema;
+    }
+
     public boolean isValid(Map<? extends Object, ? extends Object> map) {
         var isValid = super.isValid(map);
 
@@ -29,10 +34,5 @@ public class MapSchema extends BaseSchema<Map<? extends Object, ? extends Object
             }
         }
         return isValid;
-    }
-
-    public void shape(Map<? extends Object, BaseSchema> schema) {
-        shapeFlag = true;
-        this.schemas = schema;
     }
 }

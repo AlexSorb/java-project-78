@@ -19,6 +19,10 @@ public class StringSchema extends BaseSchema<String> {
     }
 
     public StringSchema contains(String searchString) {
+        if (searchString == null) {
+            throw new IllegalArgumentException("Искомая строка не может быть null");
+        }
+
         containsFlag = true;
         this.searchString = searchString;
         return this;
@@ -27,26 +31,16 @@ public class StringSchema extends BaseSchema<String> {
     public boolean isValid(String string) {
         boolean isValid = super.isValid(string);
 
-        if(flagRequired) {
-            if (string != null) {
-                isValid = !string.equals("");
-            }
+        if(isValid && flagRequired) {
+           isValid = string != null && !string.isEmpty();
         }
 
-        if (lengthFlag) {
-            if (string == null) {
-                isValid = false;
-            } else {
-                isValid = string.length() >= minLength;
-            }
+        if (isValid && lengthFlag) {
+            isValid = string != null && string.length() >= minLength;
         }
 
-        if (containsFlag) {
-            if (searchString == null || string == null) {
-                isValid = false;
-            } else {
-                isValid = string.contains(searchString);
-            }
+        if (isValid && containsFlag) {
+            isValid = !(searchString == null || string == null) && string.contains(searchString);
         }
 
         return isValid;

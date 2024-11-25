@@ -36,12 +36,12 @@ public class NumberSchema extends BaseSchema<Integer>{
     public boolean isValid(Integer number) {
         boolean isValid = super.isValid(number);
 
-        if (isValid == true && flagPositive) {
-            isValid = number == null ? true : number > 0;
+        if (isValid && flagPositive) {
+            isValid = number == null || number > 0;
         }
 
-        if (isValid == true && flagRange) {
-            isValid = number >= left && number <= right;
+        if (isValid && flagRange) {
+            isValid = (left <= number) && (number <= right);
         }
 
         return isValid;

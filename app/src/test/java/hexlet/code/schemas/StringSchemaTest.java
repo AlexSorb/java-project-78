@@ -5,6 +5,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringSchemaTest {
     private final Validator VALIDATOR = new Validator();
@@ -55,8 +57,13 @@ public class StringSchemaTest {
         assertTrue(schema.isValid(ANOTHER_STRING));
         assertFalse(schema.isValid("String"));
 
+        var throwContains = assertThrows(IllegalArgumentException.class, () -> {
+            schema.contains(null).isValid(ANOTHER_STRING);
+        });
 
-        assertFalse(schema.contains(null).isValid(ANOTHER_STRING));
+        String errorMessage = "Искомая строка не может быть null";
+        assertEquals(errorMessage, throwContains.getMessage());
+
         assertFalse(schema.contains("wh").isValid(null));
 
     }
