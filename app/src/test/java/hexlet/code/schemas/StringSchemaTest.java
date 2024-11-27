@@ -9,13 +9,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringSchemaTest {
-    private final Validator VALIDATOR = new Validator();
+    private final Validator validator = new Validator();
     private StringSchema schema;
-    private final static String ANOTHER_STRING = "what does the fox say";
+    private static final String ANOTHER_STRING = "what does the fox say";
+
+    private static final int LITTLE_TEST_LENGTH = 5;
+    private static final int MIDDLE_TEST_LENGTH = 10;
+    private static final int BIG_TEST_LENGTH = 100;
+    private static final int NEGATIVE_TEST_LENGTH = -100;
+
 
     @BeforeEach
     public void initialization() {
-        schema = VALIDATOR.string();
+        schema = validator.string();
     }
 
 
@@ -34,16 +40,17 @@ public class StringSchemaTest {
 
     @Test
     public void minLengthTest() {
+
         assertTrue(schema.isValid(ANOTHER_STRING));
-        schema.minLength(10);
+        schema.minLength(MIDDLE_TEST_LENGTH);
         assertTrue(schema.isValid(ANOTHER_STRING));
-        schema.minLength(100);
+        schema.minLength(BIG_TEST_LENGTH);
         assertFalse(schema.isValid(ANOTHER_STRING));
 
-        schema.minLength(100).minLength(5).minLength(10);
+        schema.minLength(BIG_TEST_LENGTH).minLength(LITTLE_TEST_LENGTH).minLength(MIDDLE_TEST_LENGTH);
         assertTrue(schema.isValid(ANOTHER_STRING));
 
-        schema.minLength(-100);
+        schema.minLength(NEGATIVE_TEST_LENGTH);
         assertTrue(schema.isValid(ANOTHER_STRING));
         assertFalse(schema.isValid(null));
     }
@@ -70,7 +77,7 @@ public class StringSchemaTest {
 
     @Test
     public void fullTest() {
-        schema.required().minLength(3).contains("what");
+        schema.required().minLength(LITTLE_TEST_LENGTH).contains("what");
 
         assertTrue(schema.isValid(ANOTHER_STRING));
         assertFalse(schema.isValid(null));
