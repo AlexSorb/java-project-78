@@ -2,11 +2,11 @@ package hexlet.code.schemas;
 
 import java.util.Map;
 
-public class MapSchema extends BaseSchema<Map<? extends Object, ? extends Object>> {
+public class MapSchema extends BaseSchema<Map<?, ?>> {
     private boolean sizeOfFlag = false;
     private int checkedSize = 0;
     private boolean shapeFlag = false;
-    private Map<? extends Object, BaseSchema> schemas;
+    private Map<?, BaseSchema> schemas;
 
     public MapSchema sizeof(int size) {
         sizeOfFlag = true;
@@ -14,21 +14,20 @@ public class MapSchema extends BaseSchema<Map<? extends Object, ? extends Object
         return this;
     }
 
-    public void shape(Map<? extends Object, BaseSchema> schema) {
+    public void shape(Map<?, BaseSchema> schema) {
         shapeFlag = true;
         this.schemas = schema;
     }
 
-    public boolean isValid(Map<? extends Object, ? extends Object> map) {
+    public boolean isValid(Map<?, ?> map) {
         var isValid = super.isValid(map);
 
-        if(sizeOfFlag) {
-            var mapSize = map.size();
-            isValid = mapSize == checkedSize;
+        if(isValid && sizeOfFlag) {
+            isValid = map.size() == checkedSize;
         }
-        if(shapeFlag) {
-            var mapKeys = map.keySet();
-            for (var key : mapKeys) {
+        if(isValid && shapeFlag) {
+
+            for (var key : map.keySet()) {
                 var currentSchema = schemas.get(key);
                 isValid = currentSchema.isValid(map.get(key));
             }
