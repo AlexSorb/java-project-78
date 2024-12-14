@@ -1,7 +1,10 @@
 package hexlet.code.schemas;
 
+import java.util.List;
+
 public class BaseSchema <T> {
     boolean flagRequired = false;
+    List<String> checkList;
     public BaseSchema<T> required() {
         flagRequired = true;
         return this;
