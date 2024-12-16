@@ -1,17 +1,27 @@
 package hexlet.code.schemas;
 
 import java.util.List;
+import java.util.function.Predicate;
 
 public class BaseSchema <T> {
+
+    private boolean isValid = true;
+
     boolean flagRequired = false;
-    List<String> checkList;
+    List<Predicate<T>> checkList;
     public BaseSchema<T> required() {
         flagRequired = true;
         return this;
     }
 
     public boolean isValid(T data) {
-        boolean isValid = true;
+        checkList.forEach(tPredicate -> {
+            var currentTest = tPredicate.test(data);
+            if (isValid) {
+                isValid = currentTest;
+            }
+
+        });
         if (isValid && flagRequired) {
             isValid = data != null;
         }
