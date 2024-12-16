@@ -1,16 +1,19 @@
 package hexlet.code.schemas;
 
 import java.util.Map;
+import java.util.function.Predicate;
 
 public class MapSchema extends BaseSchema<Map<?, ?>> {
-    private boolean sizeOfFlag = false;
-    private int checkedSize = 0;
     private boolean shapeFlag = false;
     private Map<?, BaseSchema> schemas;
 
     public MapSchema sizeof(int size) {
-        sizeOfFlag = true;
-        checkedSize = size;
+        if (size < 0) {
+            throw new IllegalArgumentException("Размер не может быть отрицательным");
+        }
+        final int checkSize = size;
+        Predicate<Map<?, ?>> predicate = data -> data.size() == checkSize;
+        super.checkList.add(predicate);
         return this;
     }
 
@@ -22,9 +25,6 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
     public boolean isValid(Map<?, ?> map) {
         var isValid = super.isValid(map);
 
-        if(isValid && sizeOfFlag) {
-            isValid = map.size() == checkedSize;
-        }
         if(isValid && shapeFlag) {
 
             for (var key : map.keySet()) {
