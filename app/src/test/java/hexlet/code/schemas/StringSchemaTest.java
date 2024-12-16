@@ -68,7 +68,7 @@ public class StringSchemaTest {
             schema.contains(null).isValid(ANOTHER_STRING);
         });
 
-        String errorMessage = "Искомая строка не может быть null";
+        String errorMessage = "Not null";
         assertEquals(errorMessage, throwContains.getMessage());
 
         assertFalse(schema.contains("wh").isValid(null));

@@ -20,7 +20,7 @@ public class StringSchema extends BaseSchema<String> {
 
     public StringSchema contains(String searchString) {
         if (searchString == null) {
-            throw new IllegalArgumentException("Искомая строка не может быть null");
+            throw new IllegalArgumentException("Not null");
         }
 
         containsFlag = true;
