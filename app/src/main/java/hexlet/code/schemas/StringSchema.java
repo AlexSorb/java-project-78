@@ -1,48 +1,31 @@
 package hexlet.code.schemas;
 
+import java.util.function.Predicate;
+
 public class StringSchema extends BaseSchema<String> {
 
-    private boolean lengthFlag = false;
-    private int minLength;
-    private boolean containsFlag = false;
-    private String searchString;
-
-
+    @Override
     public StringSchema required() {
         super.required();
         return this;
     }
     public StringSchema minLength(int minLength) {
-        this.minLength = Math.max(minLength, 0);
-        lengthFlag = true;
+        final int min = Math.max(minLength, 0);
+
+        Predicate<String> predicate = data -> data != null && data.length() >= min;
+        super.checkList.add(predicate);
         return this;
     }
 
-    public StringSchema contains(String searchString) {
-        if (searchString == null) {
+    public StringSchema contains(String subString) {
+        if (subString == null) {
             throw new IllegalArgumentException("Not null");
         }
 
-        containsFlag = true;
-        this.searchString = searchString;
+        final String searchString = subString;
+        Predicate<String> predicate = date -> !(date == null) && date.contains(searchString);
+        super.checkList.add(predicate);
         return this;
     }
 
-    public boolean isValid(String string) {
-        boolean isValid = super.isValid(string);
-
-        if(isValid && flagRequired) {
-           isValid = string != null && !string.isEmpty();
-        }
-
-        if (isValid && lengthFlag) {
-            isValid = string != null && string.length() >= minLength;
-        }
-
-        if (isValid && containsFlag) {
-            isValid = !(searchString == null || string == null) && string.contains(searchString);
-        }
-
-        return isValid;
-    }
 }
