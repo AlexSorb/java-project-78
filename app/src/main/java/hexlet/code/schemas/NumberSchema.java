@@ -1,18 +1,17 @@
 package hexlet.code.schemas;
 
-public class NumberSchema extends BaseSchema<Integer>{
-    private boolean flagPositive = false;
-    private boolean flagRange = false;
-    private Integer left;
-    private Integer right;
+import java.util.function.Predicate;
 
+public class NumberSchema extends BaseSchema<Integer>{
+    @Override
     public NumberSchema required() {
         super.required();
         return this;
     }
 
     public NumberSchema positive() {
-        flagPositive = true;
+        Predicate<Integer> predicate = date -> date == null || date > 0;
+        super.checkList.add(predicate);
         return this;
     }
 
@@ -21,29 +20,12 @@ public class NumberSchema extends BaseSchema<Integer>{
             throw new IllegalArgumentException("Граница диапазона не может быть null");
         }
 
-        if (left > right) {
-            left = left + right;
-            right = left - right;
-            left = left - right;
-        }
+        int leftBord = Math.min(left, right);
+        int rightBord = Math.max(left, right);
 
-        flagRange = true;
-        this.left = left;
-        this.right = right;
+        Predicate<Integer> predicate = data -> (leftBord <= data) && (data <= rightBord);
+        super.checkList.add(predicate);
         return this;
     }
 
-    public boolean isValid(Integer number) {
-        boolean isValid = super.isValid(number);
-
-        if (isValid && flagPositive) {
-            isValid = number == null || number > 0;
-        }
-
-        if (isValid && flagRange) {
-            isValid = (left <= number) && (number <= right);
-        }
-
-        return isValid;
-    }
 }
