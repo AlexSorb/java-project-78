@@ -11,9 +11,11 @@ public class StringSchema extends BaseSchema<String> {
     }
     public StringSchema minLength(int minLength) {
         final int min = Math.max(minLength, 0);
+        String predicateName = "minLength";
 
         Predicate<String> predicate = data -> data != null && data.length() >= min;
         super.checkList.add(predicate);
+        super.checkMap.put(predicateName, predicate);
         return this;
     }
 
