@@ -42,7 +42,7 @@ public class BaseSchema <T> {
             }
         });
 
-        return isValid || newisValid;
+        return isValid && newisValid;
     }
 
 }

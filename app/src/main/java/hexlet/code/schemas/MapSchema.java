@@ -11,9 +11,12 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
         if (size < 0) {
             throw new IllegalArgumentException("Размер не может быть отрицательным");
         }
+
+        String predicateName = "sizeof";
         final int checkSize = size;
         Predicate<Map<?, ?>> predicate = data -> data.size() == checkSize;
-        super.checkList.add(predicate);
+        //super.checkList.add(predicate);
+        super.namedPredicate.put(predicateName,predicate);
         return this;
     }
 

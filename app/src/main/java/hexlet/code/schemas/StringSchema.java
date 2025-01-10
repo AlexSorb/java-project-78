@@ -21,6 +21,7 @@ public class StringSchema extends BaseSchema<String> {
 
         // Update
         String predicateName = "minLength";
+        super.namedPredicate.remove(predicateName);
         super.namedPredicate.put(predicateName, predicate);
         return this;
     }
