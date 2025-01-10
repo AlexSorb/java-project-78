@@ -6,16 +6,22 @@ public class StringSchema extends BaseSchema<String> {
 
     @Override
     public StringSchema required() {
-        super.required();
+        Predicate<String> predicate = data -> data != null && !data.isEmpty();
+        super.checkList.add(predicate);
+
+        // Update
+        String predicateName = "required";
+        namedPredicate.put(predicateName, predicate);
         return this;
     }
     public StringSchema minLength(int minLength) {
         final int min = Math.max(minLength, 0);
-        String predicateName = "minLength";
-
         Predicate<String> predicate = data -> data != null && data.length() >= min;
         super.checkList.add(predicate);
-        super.checkMap.put(predicateName, predicate);
+
+        // Update
+        String predicateName = "minLength";
+        super.namedPredicate.put(predicateName, predicate);
         return this;
     }
 
@@ -27,6 +33,11 @@ public class StringSchema extends BaseSchema<String> {
         final String searchString = subString;
         Predicate<String> predicate = date -> !(date == null) && date.contains(searchString);
         super.checkList.add(predicate);
+
+
+        // Update
+        String predicateName = "contains";
+        super.namedPredicate.put(predicateName, predicate);
         return this;
     }
 

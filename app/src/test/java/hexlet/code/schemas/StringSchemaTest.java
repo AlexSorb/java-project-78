@@ -26,12 +26,17 @@ public class StringSchemaTest {
 
 
     @Test
-    public void requiredTest() {
-
+    public void noAttributeTest(){
+        // Тест работы без добовления required
         assertTrue(schema.isValid(ANOTHER_STRING));
         assertTrue(schema.isValid(null));
         assertTrue(schema.isValid(""));
+    }
 
+    @Test
+    public void requiredTest() {
+
+        // Тест работы с добовлением required
         schema.required();
         assertTrue(schema.isValid(ANOTHER_STRING));
         assertFalse(schema.isValid(null));
@@ -41,7 +46,6 @@ public class StringSchemaTest {
     @Test
     public void minLengthTest() {
 
-        assertTrue(schema.isValid(ANOTHER_STRING));
         schema.minLength(MIDDLE_TEST_LENGTH);
         assertTrue(schema.isValid(ANOTHER_STRING));
         schema.minLength(BIG_TEST_LENGTH);
