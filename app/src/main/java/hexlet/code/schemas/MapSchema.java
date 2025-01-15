@@ -4,6 +4,8 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class MapSchema extends BaseSchema<Map<?, ?>> {
+    private final String SIZEOF_NAME = "sizeof";
+
     private boolean shapeFlag = false;
     private Map<?, BaseSchema> schemas;
 
@@ -12,28 +14,27 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
             throw new IllegalArgumentException("Размер не может быть отрицательным");
         }
 
-        String predicateName = "sizeof";
         final int checkSize = size;
         Predicate<Map<?, ?>> predicate = data -> data.size() == checkSize;
-        //super.checkList.add(predicate);
-        super.namedPredicate.put(predicateName,predicate);
+        super.namedPredicate.put(SIZEOF_NAME, predicate);
         return this;
     }
 
     public void shape(Map<?, BaseSchema> schema) {
-        shapeFlag = true;
         this.schemas = schema;
     }
 
-    public boolean isValid(Map<?, ?> map) {
-        var isValid = super.isValid(map);
+    public boolean isValid(Map<?, ?> data) {
+        var isValid = true;
 
-        if(isValid && shapeFlag) {
+        if (schemas != null && isValid) {
+            isValid = false;
 
-            for (var key : map.keySet()) {
-                var currentSchema = schemas.get(key);
-                isValid = currentSchema.isValid(map.get(key));
-            }
+            data.forEach((key, value) ->{
+                var currentPredicate = schemas.get(key);
+
+            });
+
         }
         return isValid;
     }

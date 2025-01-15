@@ -12,7 +12,6 @@ public class NumberSchema extends BaseSchema<Integer>{
     public NumberSchema positive() {
         String predicateName = "positive";
         Predicate<Integer> predicate = date -> date == null || date > 0;
-        //super.checkList.add(predicate);
         super.namedPredicate.put(predicateName, predicate);
         return this;
     }
@@ -27,7 +26,6 @@ public class NumberSchema extends BaseSchema<Integer>{
 
         String predicateName = "range";
         Predicate<Integer> predicate = data -> (leftBord <= data) && (data <= rightBord);
-        //super.checkList.add(predicate);
         super.namedPredicate.put(predicateName, predicate);
         return this;
     }
