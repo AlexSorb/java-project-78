@@ -6,7 +6,6 @@ import java.util.function.Predicate;
 public class MapSchema extends BaseSchema<Map<?, ?>> {
     private final String SIZEOF_NAME = "sizeof";
 
-    private boolean shapeFlag = false;
     private Map<?, BaseSchema> schemas;
 
     public MapSchema sizeof(int size) {
@@ -25,16 +24,13 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
     public boolean isValid(Map<?, ?> data) {
-        var isValid = true;
+        boolean isValid = true;
 
         if (schemas != null && isValid) {
-            isValid = false;
-
-            data.forEach((key, value) ->{
-                var currentPredicate = schemas.get(key);
-
-            });
-
+            for (var key : data.keySet()) {
+                var currentSchema = schemas.get(key);
+                isValid = currentSchema.isValid(data.get(key));
+            }
         }
         return isValid;
     }
