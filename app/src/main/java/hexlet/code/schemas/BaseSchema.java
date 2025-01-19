@@ -25,8 +25,9 @@ public class BaseSchema <T> {
                 isValid = tPredicate.test(data);
             }
         });
-
-        return isValid;
+        var result = isValid;
+        this.isValid = true;
+        return result;
     }
 
 }
