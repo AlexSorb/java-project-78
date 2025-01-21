@@ -11,11 +11,17 @@ public class StringSchema extends BaseSchema<String> {
         namedPredicate.put(predicateName, predicate);
         return this;
     }
+
     public StringSchema minLength(int minLength) {
-        final int min = Math.max(minLength, 0);
-        Predicate<String> predicate = data -> data != null && data.length() >= min;
+
+        if (minLength < 0) {
+            throw new IllegalArgumentException("Length less than zero");
+        }
+
         String predicateName = "minLength";
+        Predicate<String> predicate = data -> data != null && data.length() >= minLength;
         super.namedPredicate.put(predicateName, predicate);
+
         return this;
     }
 
