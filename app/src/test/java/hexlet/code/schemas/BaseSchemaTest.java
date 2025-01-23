@@ -14,30 +14,35 @@ public class BaseSchemaTest {
     }
 
     @Test
-    public void isValidWithoutSchemasTest() {
-
-        // Проверка на валидность Null
+    public void isValidWithoutSchemasWithNullTest() {
         boolean resultNull = baseSchema.isValid(null);
         assertTrue(resultNull);
+    }
 
-        // Проверка на валиднорсть случайного значения
+    @Test
+    public void isValidWithoutSchemasWithObjectTest() {
         Object testObject = "Any object";
         boolean resultTestAnyObject = baseSchema.isValid(testObject);
         assertTrue(resultTestAnyObject);
     }
 
     @Test
-    public void requiredSchemaTest() {
+    public void requiredSchemaWithNullTest() {
         baseSchema.required();
-
-        //Проверка на не валидность null
         boolean resultNull = baseSchema.isValid(null);
         assertFalse(resultNull);
 
-        // Проверка на валиднорсть случайного значения
-        Object testObject = "Any object";
-        boolean resultTestAnyObject = baseSchema.isValid(testObject);
-        assertTrue(resultTestAnyObject);
+
 
     }
+
+    @Test
+    public void requiredSchemaWithObjectTest() {
+        baseSchema.required();
+        Object testObject = "Any object";
+
+        boolean resultTestAnyObject = baseSchema.isValid(testObject);
+        assertTrue(resultTestAnyObject);
+    }
+
 }
