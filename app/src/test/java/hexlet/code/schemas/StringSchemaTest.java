@@ -1,5 +1,6 @@
 package hexlet.code.schemas;
 
+import hexlet.code.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -17,65 +18,87 @@ public class StringSchemaTest {
 
     @BeforeEach
     public void initialization() {
-        schema = new StringSchema();
+        schema = new Validator().string();
+    }
+
+    // Тестирование isValid без схемы
+    @Test
+    public void isValidWithoutSchemasWithNullTest() {
+        boolean resultNull = schema.isValid(null);
+        assertTrue(resultNull);
     }
 
     @Test
-    public void isValidWithoutSchemasTest() {
-
-        // Тест на волидность Null
-        boolean resultNull = schema.isValid(null);
-        assertTrue(resultNull);
-
-        // Тест на валидность пустой строки
+    public void isValidWithoutSchemasWithEmptyStringTest() {
         boolean resultEmptyString = schema.isValid("");
         assertTrue(resultEmptyString);
+    }
 
-        // Тест на валидность случайно строки
-        boolean resultRandomString = schema.isValid("Same string");
+    @Test
+    public void isValidWithoutSchemasWithStringTest() {
+        boolean resultRandomString = schema.isValid(TESTING_STRING);
         assertTrue(resultRandomString);
     }
 
-    @Test
-    public void requiredSchemaTest() {
-        schema.required();
 
-        // Тест на не волидность Null
+    // Тестирование схемы required
+    @Test
+    public void requiredSchemaWithNullTest() {
+        schema.required();
         boolean resultNull = schema.isValid(null);
         assertFalse(resultNull);
 
-        // Тест на невалидность пустой строки
+    }
+
+    @Test
+    public void requiredSchemaWithEmptyStringTest() {
+        schema.required();
         boolean resultEmptyString = schema.isValid("");
         assertFalse(resultEmptyString);
+    }
 
-        // Тест на валидность случайно строки
+    @Test
+    public void requiredSchemaWithStringTest() {
+        schema.required();
         boolean resultRandomString = schema.isValid("Same string");
         assertTrue(resultRandomString);
     }
 
     @Test
-    public void minLengthSchemaTest(){
+    public void minLengthSchemaWithLittleLengthTest(){
 
-        // Тест валидности строки при проверки минимальной длинны в 5 символов
-        boolean resultFiveLength = schema.minLength(LITTLE_LENGTH).isValid(TESTING_STRING);
+        schema.minLength(LITTLE_LENGTH);
+        boolean resultFiveLength = schema.isValid(TESTING_STRING);
         assertTrue(resultFiveLength);
 
-        // Тест на невалидность при проверки минимальной длинны в 100 символов
-        boolean resultHundredLength = schema.minLength(BIG_LENGTH).isValid(TESTING_STRING);
-        assertFalse(resultHundredLength);
 
-        // Тест на "затирание" размерности при повторном указании минимальной длинны
+    }
+
+    @Test
+    public void minLengthSchemaWithBigLengthTest() {
+        schema.minLength(BIG_LENGTH);
+        boolean resultHundredLength = schema.isValid(TESTING_STRING);
+        assertFalse(resultHundredLength);
+    }
+
+    @Test
+    public void redefineMinLengthSchemaTest() {
         schema.minLength(BIG_LENGTH).minLength(LITTLE_LENGTH);
         boolean resultChangeLength = schema.isValid(TESTING_STRING);
         assertTrue(resultChangeLength);
+    }
 
-        // Тест на невалидность Null
+    @Test
+    public void minLengthSchemaWithNullTest() {
+        schema.minLength(LITTLE_LENGTH);
         boolean resultNull = schema.isValid(null);
         assertFalse(resultNull);
+    }
 
-        // Тест на выкидывание ошибки при передачи отрицательной минимальной длинны
+    @Test
+    public void minLengthSchemaWithNegativeValueLengthTest() {
         var throwContains = assertThrows(IllegalArgumentException.class, () ->{
-           schema.minLength(-LITTLE_LENGTH);
+            schema.minLength(-LITTLE_LENGTH);
         });
         assertEquals("Length less than zero", throwContains.getMessage());
     }
