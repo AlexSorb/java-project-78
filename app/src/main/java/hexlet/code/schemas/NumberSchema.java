@@ -25,7 +25,12 @@ public class NumberSchema extends BaseSchema<Integer>{
         int rightBord = Math.max(left, right);
 
         String predicateName = "range";
-        Predicate<Integer> predicate = data -> (leftBord <= data) && (data <= rightBord);
+        Predicate<Integer> predicate = data -> {
+            if (data == null) {
+                return false;
+            }
+            return  (leftBord <= data) && (data <= rightBord);
+        };
         super.namedPredicate.put(predicateName, predicate);
         return this;
     }

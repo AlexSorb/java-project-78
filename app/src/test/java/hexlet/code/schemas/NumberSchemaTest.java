@@ -3,8 +3,9 @@ package hexlet.code.schemas;
 import hexlet.code.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+
+import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class NumberSchemaTest {
     private final static Validator VALIDATOR = new Validator();
@@ -21,38 +22,6 @@ public class NumberSchemaTest {
         schema = VALIDATOR.number();
     }
 
-    @Test
-    public void requiredTest() {
-        assertTrue(schema.isValid(null));
-
-        schema.required();
-        assertFalse(schema.isValid(null));
-        assertTrue(schema.isValid(TEST_POSITIVE_NUMBER));
-
-    }
-
-    @Test
-    public void positiveTest() {
-        schema.positive();
-        assertTrue(schema.isValid(null));
-        assertTrue(schema.isValid(TEST_POSITIVE_NUMBER));
-        assertFalse(schema.isValid(TEST_NEGATIVE_NUMBER));
-        assertFalse(schema.isValid(0));
-    }
-
-    @Test
-    public void rangeTest() {
-        schema.range(5, 10);
-        assertTrue(schema.isValid(TEST_POSITIVE_NUMBER));
-        assertFalse(schema.isValid(4));
-
-
-        assertTrue(schema.isValid(10));
-        assertFalse(schema.isValid(11));
-    }
-
-
-    // NEW TEST
 
     // IS_VALID testing
     @Test
@@ -137,5 +106,34 @@ public class NumberSchemaTest {
 
         boolean resultRangeWithNumberInRange = schema.isValid(TEST_POSITIVE_NUMBER);
         assertTrue(resultRangeWithNumberInRange);
+    }
+
+    @Test
+    public void rangeWithNumberOutOfRange() {
+        schema.range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE);
+
+        boolean resultRangeWithMaxValue = schema.isValid(Integer.MAX_VALUE);
+        assertFalse(resultRangeWithMaxValue);
+
+        boolean resultRangeWithMinValue = schema.isValid(Integer.MIN_VALUE);
+        assertFalse(resultRangeWithMinValue);
+    }
+
+    @Test
+    public void rangeWithNumberBordNull() {
+        var throwContains = assertThrows(IllegalArgumentException.class, () ->{
+            schema.range(null, TEST_RIGHT_RANGE);
+        });
+        assertEquals("Граница диапазона не может быть null", throwContains.getMessage());
+
+        throwContains = assertThrows(IllegalArgumentException.class, () ->{
+            schema.range(TEST_LEFT_RANGE, null);
+        });
+        assertEquals("Граница диапазона не может быть null", throwContains.getMessage());
+
+        throwContains = assertThrows(IllegalArgumentException.class, () ->{
+            schema.range(null, null);
+        });
+        assertEquals("Граница диапазона не может быть null", throwContains.getMessage());
     }
 }

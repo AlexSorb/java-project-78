@@ -7,6 +7,7 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
     private final String SIZEOF_NAME = "sizeof";
 
     private Map<?, BaseSchema> schemas;
+    private boolean isValid = true;
 
     public MapSchema sizeof(int size) {
         if (size < 0) {
@@ -23,15 +24,20 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
         this.schemas = schema;
     }
 
-    public boolean isValid(Map<?, ?> data) {
-        boolean isValid = true;
-
-        if (schemas != null && isValid) {
-            for (var key : data.keySet()) {
-                var currentSchema = schemas.get(key);
-                isValid = currentSchema.isValid(data.get(key));
-            }
-        }
-        return isValid;
-    }
+//    @Override
+//    public boolean isValid(Map<?, ?> data) {
+//
+//        if (schemas != null && isValid) {
+//            for (var key : data.keySet()) {
+//                var currentSchema = schemas.get(key);
+//                isValid = currentSchema.isValid(data.get(key));
+//            }
+//        } else if (schemas == null && isValid) {
+//
+//        }
+//
+//        boolean result = isValid;
+//        isValid = true;
+//        return result;
+//    }
 }
