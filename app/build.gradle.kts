@@ -25,6 +25,12 @@ tasks.test {
     finalizedBy(tasks.jacocoTestReport)
 }
 
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(21))
+    }
+}
+
 tasks.jacocoTestReport {
     dependsOn(tasks.test)
     reports {
