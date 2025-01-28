@@ -22,16 +22,14 @@ public class NumberSchemaTest {
         schema = VALIDATOR.number();
     }
 
-
-    // IS_VALID testing
     @Test
-    public void isValidWithoutSchemasWithNull() {
+    public void isValidWithoutSchemasWithNullTest() {
         boolean resultNull = schema.isValid(null);
         assertTrue(resultNull);
     }
 
     @Test
-    public void isValidWithoutSchemasWithNumber() {
+    public void isValidWithoutSchemasWithNumberTest() {
         boolean resultPositiveNumber = schema.isValid(TEST_POSITIVE_NUMBER);
         assertTrue(resultPositiveNumber);
 
@@ -39,7 +37,6 @@ public class NumberSchemaTest {
         assertTrue(resultNegativeNumber);
     }
 
-    // required testing
     @Test
     public void requiredWithNullTest() {
         schema.required();
@@ -49,7 +46,7 @@ public class NumberSchemaTest {
     }
 
     @Test
-    public void requiredWithIntegerPositiveNumber() {
+    public void requiredWithIntegerPositiveNumberTest() {
         schema.required();
 
         boolean resultRequiredWithPositiveNumber = schema.isValid(TEST_POSITIVE_NUMBER);
@@ -57,9 +54,8 @@ public class NumberSchemaTest {
 
     }
 
-    // positive TESTING
     @Test
-    public void positiveWithIntegerNegativeNumber() {
+    public void positiveWithIntegerNegativeNumberTest() {
         schema.positive();
 
         boolean resultPositiveWithNegativeNumber = schema.isValid(TEST_NEGATIVE_NUMBER);
@@ -67,7 +63,7 @@ public class NumberSchemaTest {
     }
 
     @Test
-    public void positiveWithIntegerZeroNumber() {
+    public void positiveWithIntegerZeroNumberTest() {
         schema.positive();
 
         boolean resultPositiveWithZeroNumber = schema.isValid(TEST_ZERO_NUMBER);
@@ -75,7 +71,7 @@ public class NumberSchemaTest {
     }
 
     @Test
-    public void positiveWithIntegerPositiveNumber() {
+    public void positiveWithIntegerPositiveNumberTest() {
         schema.positive();
 
         boolean resultPositiveWithPositiveNumber = schema.isValid(TEST_POSITIVE_NUMBER);
@@ -83,15 +79,13 @@ public class NumberSchemaTest {
     }
 
     @Test
-    public void positiveWithNull() {
+    public void positiveWithNullTest() {
         schema.positive();
 
         boolean resultPositiveWithNull = schema.isValid(TEST_POSITIVE_NUMBER);
         assertTrue(resultPositiveWithNull);
     }
 
-
-    // TEST RANGE
     @Test
     public void rangeWithNullTest() {
         schema.range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE);
@@ -101,7 +95,7 @@ public class NumberSchemaTest {
     }
 
     @Test
-    public void rangeWithNumberInRange() {
+    public void rangeWithNumberInRangeTest() {
         schema.range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE);
 
         boolean resultRangeWithNumberInRange = schema.isValid(TEST_POSITIVE_NUMBER);
@@ -109,7 +103,7 @@ public class NumberSchemaTest {
     }
 
     @Test
-    public void rangeWithNumberOutOfRange() {
+    public void rangeWithNumberOutOfRangeTest() {
         schema.range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE);
 
         boolean resultRangeWithMaxValue = schema.isValid(Integer.MAX_VALUE);
@@ -120,7 +114,7 @@ public class NumberSchemaTest {
     }
 
     @Test
-    public void rangeWithNumberBordNull() {
+    public void rangeWithNumberBordNullTest() {
         var throwContains = assertThrows(IllegalArgumentException.class, () ->{
             schema.range(null, TEST_RIGHT_RANGE);
         });
