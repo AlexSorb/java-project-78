@@ -10,15 +10,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringSchemaTest {
 
+    private final static Validator VALIDATOR = new Validator();
     private StringSchema schema;
     private static final String TESTING_STRING = "what does the fox say";
+    private static final String CONTAINS_WORD = "what";
+    private static final String CONTAINS_SYLLABLE = "wh";
+    private static final String NOT_CONTAINS_WORD = "Not Contain";
 
     private static final int LITTLE_LENGTH = 5;
     private static final int BIG_LENGTH = 100;
+    private static final int NEGATIVE_LENGTH = -100;
 
     @BeforeEach
     public void initialization() {
-        schema = new Validator().string();
+        schema = VALIDATOR.string();
     }
 
     // Тестирование isValid без схемы
@@ -66,12 +71,9 @@ public class StringSchemaTest {
 
     @Test
     public void minLengthSchemaWithLittleLengthTest(){
-
         schema.minLength(LITTLE_LENGTH);
         boolean resultFiveLength = schema.isValid(TESTING_STRING);
         assertTrue(resultFiveLength);
-
-
     }
 
     @Test
@@ -98,29 +100,47 @@ public class StringSchemaTest {
     @Test
     public void minLengthSchemaWithNegativeValueLengthTest() {
         var throwContains = assertThrows(IllegalArgumentException.class, () ->{
-            schema.minLength(-LITTLE_LENGTH);
+            schema.minLength(NEGATIVE_LENGTH);
         });
         assertEquals("Length less than zero", throwContains.getMessage());
     }
 
     @Test
-    public void containsSchemaTest() {
+    public void containsSchemaWithContainsFindWordTest() {
+        schema.contains(CONTAINS_WORD);
+        boolean resultContainWord = schema.isValid(TESTING_STRING);
+        assertTrue(resultContainWord);
+    }
 
+    @Test
+    public void containsSchemaWithContainsFindSyllableTest() {
+        schema.contains(CONTAINS_SYLLABLE);
+        boolean resultContainSyllable = schema.isValid(TESTING_STRING);
+        assertTrue(resultContainSyllable);
+    }
 
-        schema.contains("what");
-        assertTrue(schema.isValid(TESTING_STRING));
-        schema.contains("wh");
-        assertTrue(schema.isValid(TESTING_STRING));
-        assertFalse(schema.isValid("String"));
+    @Test
+    public void containsSchemaWithNotContainsFindWordTest() {
+        schema.contains(NOT_CONTAINS_WORD);
+        boolean resultNotContainWord = schema.isValid(TESTING_STRING);
+        assertFalse(resultNotContainWord);
+    }
 
+    @Test
+    public void containsSchemaWithNullContainsStringTest() {
         var throwContains = assertThrows(IllegalArgumentException.class, () -> {
-            schema.contains(null).isValid(TESTING_STRING);
+            schema.contains(null);
+            schema.isValid(TESTING_STRING);
         });
 
         String errorMessage = "Not null";
         assertEquals(errorMessage, throwContains.getMessage());
+    }
 
-        assertFalse(schema.contains("wh").isValid(null));
-
+    @Test
+    public void containsSchemaWithNullDataStringTest() {
+        schema.contains(TESTING_STRING);
+        boolean resulNullData = schema.isValid(null);
+        assertFalse(resulNullData);
     }
 }
