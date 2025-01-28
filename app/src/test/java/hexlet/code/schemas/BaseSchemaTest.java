@@ -6,7 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
 public class BaseSchemaTest {
-    BaseSchema<Object> baseSchema;
+    private BaseSchema<Object> baseSchema;
+
+    private final static Object TEST_OBJECT = "Any object";
 
     @BeforeEach
     public void initialization() {
@@ -21,8 +23,7 @@ public class BaseSchemaTest {
 
     @Test
     public void isValidWithoutSchemasWithObjectTest() {
-        Object testObject = "Any object";
-        boolean resultTestAnyObject = baseSchema.isValid(testObject);
+        boolean resultTestAnyObject = baseSchema.isValid(TEST_OBJECT);
         assertTrue(resultTestAnyObject);
     }
 
@@ -31,17 +32,12 @@ public class BaseSchemaTest {
         baseSchema.required();
         boolean resultNull = baseSchema.isValid(null);
         assertFalse(resultNull);
-
-
-
     }
 
     @Test
     public void requiredSchemaWithObjectTest() {
         baseSchema.required();
-        Object testObject = "Any object";
-
-        boolean resultTestAnyObject = baseSchema.isValid(testObject);
+        boolean resultTestAnyObject = baseSchema.isValid(TEST_OBJECT);
         assertTrue(resultTestAnyObject);
     }
 
