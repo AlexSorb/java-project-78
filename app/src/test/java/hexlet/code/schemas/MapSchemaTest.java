@@ -7,40 +7,67 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public class MapSchemaTest {
-    Validator validator = new Validator();
-    MapSchema schema;
+    private final static Validator VALIDATOR = new Validator();
+    private MapSchema schema;
+    private final static Map<Integer, String> TESTING_MAP = Map.of(
+            0, "value0",
+            1, "value1",
+            2, "value2",
+            3, "value3",
+            4, "value4",
+            5, "value5",
+            6, "value6",
+            7, "value7",
+            8, "value8",
+            9, "value9"
+    );
 
     @BeforeEach
     public void initialization() {
-        schema = validator.map();
+        schema = VALIDATOR.map();
     }
 
+    @Test
+    public void isValidWithoutSchemaWithNullTest() {
+        boolean resultNull = schema.isValid(null);
+        assertTrue(resultNull);
+    }
 
     @Test
-    public void requiredTest() {
-        assertTrue(schema.isValid(null));
+    public void isValidWithoutSchemaWithMapTest() {
+        boolean resultMap = schema.isValid(TESTING_MAP);
+        assertTrue(resultMap);
+    }
 
+    @Test
+    public void requiredSchemaWithNullTest(){
         schema.required();
-
-        assertFalse(schema.isValid(null));
-        assertTrue(schema.isValid(new HashMap<>()));
-
-        var data = new HashMap<String,String>();
-        data.put("anyKey", "anyValue");
-
-        assertTrue(schema.isValid(data));
+        boolean resultRequiredNull = schema.isValid(null);
+        assertFalse(resultRequiredNull);
     }
 
     @Test
-    public void sizeOfTest() {
+    public void requiredSchemaWithMapTest() {
+        schema.required();
+        boolean resultRequiredMap = schema.isValid(TESTING_MAP);
+        assertTrue(resultRequiredMap);
+    }
+
+
+    @Test
+    public void sizeOfSchemaWithLittleSize() {
         schema.sizeof(2);
-        var data = new HashMap<Integer, String>();
-        data.put(1, "one");
-        assertFalse(schema.isValid(data));
-        data.put(2, "two");
-        assertTrue(schema.isValid(data));
+        boolean resultLittleSeize = schema.isValid(TESTING_MAP);
+        assertFalse(resultLittleSeize);
+    }
+
+    @Test
+    public void sizeOfSchemaWithCurrentSize() {
+        schema.sizeof(TESTING_MAP.size());
+        boolean resultCurrentSeize = schema.isValid(TESTING_MAP);
+        assertTrue(resultCurrentSeize);
     }
 }
