@@ -14,30 +14,45 @@ public class ShapeFunctionTest {
     private MapSchema schema;
     private HashMap<String, BaseSchema> schemas = new HashMap<>();
 
+    private final static Map<String,String> TEST_MAP_VALID = Map.of(
+            "firstName", "John",
+            "lastName", "Smith"
+    );
+    private final static Map<String, String> TEST_MAP_NO_VALID_EMPTY = Map.of(
+            "firstName", "John",
+            "lastName", null
+    );
+
+    private final static Map<String, String> TEST_MAP_NO_VALID_SHORT_SIZE = Map.of(
+            "firstName", "Anna",
+            "lastName", "B"
+    );
+
     @BeforeEach
     public void initialization() {
         schema = VALIDATOR.map();
         schemas.put("firstName", VALIDATOR.string().required());
         schemas.put("lastName", VALIDATOR.string().required().minLength(2));
+        schema.shape(schemas);
+    }
+
+
+    @Test
+    public void shapeFunctionWithNull() {
+        boolean resultWithEmpty = schema.isValid(TEST_MAP_NO_VALID_EMPTY);
+        assertFalse(resultWithEmpty);
     }
 
     @Test
-    public void shapeTest() {
-        schema.shape(schemas);
-
-        Map<String, String> human1 = new HashMap<>();
-        human1.put("firstName", "John");
-        human1.put("lastName", "Smith");
-        assertTrue(schema.isValid(human1));
-
-        Map<String, String> human2 = new HashMap<>();
-        human2.put("firstName", "John");
-        human2.put("lastName", null);
-        assertFalse(schema.isValid(human2));
-
-        Map<String, String> human3 = new HashMap<>();
-        human3.put("firstName", "Anna");
-        human3.put("lastName", "B");
-        assertFalse(schema.isValid(human3)); // false
+    public void shapeFunctionWithValidMap() {
+        boolean resultWithValidMap = schema.isValid(TEST_MAP_VALID);
+        assertTrue(resultWithValidMap);
     }
+
+    @Test
+    public void shapeFunctionWithShortSize() {
+        boolean resultWithShortSize = schema.isValid(TEST_MAP_NO_VALID_SHORT_SIZE);
+        assertFalse(resultWithShortSize);
+    }
+
 }
