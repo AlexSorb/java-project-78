@@ -11,7 +11,7 @@ public class BaseSchema<T> {
     private static final String REQUIRED_SCHEMA_NAME = "required";
     private boolean isValid = true;
     @Getter
-    private Map<String, Predicate<T>> namedPredicate;
+    private final Map<String, Predicate<T>> namedPredicate;
 
     public BaseSchema() {
         namedPredicate = new HashMap<>();
