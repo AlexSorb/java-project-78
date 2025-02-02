@@ -4,21 +4,23 @@ import hexlet.code.Validator;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class NumberSchemaTest {
-    private final static Validator VALIDATOR = new Validator();
+    private static final Validator VALIDATOR = new Validator();
     private NumberSchema schema;
-    private final static Integer TEST_POSITIVE_NUMBER = 5;
-    private final static Integer TEST_NEGATIVE_NUMBER = -5;
-    private final static Integer TEST_ZERO_NUMBER = 0;
+    private static final Integer TEST_POSITIVE_NUMBER = 5;
+    private static final Integer TEST_NEGATIVE_NUMBER = -5;
+    private static final Integer TEST_ZERO_NUMBER = 0;
 
-    private final static Integer TEST_LEFT_RANGE = -4;
-    private final static Integer TEST_RIGHT_RANGE = 5;
+    private static final Integer TEST_LEFT_RANGE = -4;
+    private static final Integer TEST_RIGHT_RANGE = 5;
 
     @BeforeEach
-    public void initialization() {
+    public final void initialization() {
         schema = VALIDATOR.number();
     }
 
@@ -115,17 +117,17 @@ public class NumberSchemaTest {
 
     @Test
     public void rangeWithNumberBordNullTest() {
-        var throwContains = assertThrows(IllegalArgumentException.class, () ->{
+        var throwContains = assertThrows(IllegalArgumentException.class, () -> {
             schema.range(null, TEST_RIGHT_RANGE);
         });
         assertEquals("Граница диапазона не может быть null", throwContains.getMessage());
 
-        throwContains = assertThrows(IllegalArgumentException.class, () ->{
+        throwContains = assertThrows(IllegalArgumentException.class, () -> {
             schema.range(TEST_LEFT_RANGE, null);
         });
         assertEquals("Граница диапазона не может быть null", throwContains.getMessage());
 
-        throwContains = assertThrows(IllegalArgumentException.class, () ->{
+        throwContains = assertThrows(IllegalArgumentException.class, () -> {
             schema.range(null, null);
         });
         assertEquals("Граница диапазона не может быть null", throwContains.getMessage());

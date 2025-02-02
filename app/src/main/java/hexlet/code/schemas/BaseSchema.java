@@ -1,18 +1,26 @@
 package hexlet.code.schemas;
 
+import lombok.Getter;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
-public class BaseSchema <T> {
+public class BaseSchema<T> {
 
-    private final static String REQUIRED_SCHEMA_NAME = "required";
+    private static final String REQUIRED_SCHEMA_NAME = "required";
     private boolean isValid = true;
-    Map<String, Predicate<T>> namedPredicate;
+    @Getter
+    private Map<String, Predicate<T>> namedPredicate;
 
-    public BaseSchema () {
+    public BaseSchema() {
         namedPredicate = new HashMap<>();
     }
+
+    /**
+     * Метод добовляет предикат проверки объекта на null.
+     * @return BaseSchema
+     */
     public BaseSchema<T> required() {
 
         Predicate<T> predicate = data -> isValid = data != null;
@@ -20,7 +28,7 @@ public class BaseSchema <T> {
         return this;
     }
 
-    public boolean isValid(T data) {
+    public final boolean isValid(T data) {
         namedPredicate.forEach((s, tPredicate) -> {
             if (isValid) {
                 isValid = tPredicate.test(data);

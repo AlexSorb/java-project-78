@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StringSchemaTest {
 
-    private final static Validator VALIDATOR = new Validator();
+    private static final Validator VALIDATOR = new Validator();
     private StringSchema schema;
     private static final String TESTING_STRING = "what does the fox say";
     private static final String CONTAINS_WORD = "what";
@@ -22,7 +22,7 @@ public class StringSchemaTest {
     private static final int NEGATIVE_LENGTH = -100;
 
     @BeforeEach
-    public void initialization() {
+    public final void initialization() {
         schema = VALIDATOR.string();
     }
 
@@ -70,7 +70,7 @@ public class StringSchemaTest {
     }
 
     @Test
-    public void minLengthSchemaWithLittleLengthTest(){
+    public void minLengthSchemaWithLittleLengthTest() {
         schema.minLength(LITTLE_LENGTH);
         boolean resultFiveLength = schema.isValid(TESTING_STRING);
         assertTrue(resultFiveLength);
@@ -99,7 +99,7 @@ public class StringSchemaTest {
 
     @Test
     public void minLengthSchemaWithNegativeValueLengthTest() {
-        var throwContains = assertThrows(IllegalArgumentException.class, () ->{
+        var throwContains = assertThrows(IllegalArgumentException.class, () -> {
             schema.minLength(NEGATIVE_LENGTH);
         });
         assertEquals("Length less than zero", throwContains.getMessage());

@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import java.util.Map;
 
 public class MapSchemaTest {
-    private final static Validator VALIDATOR = new Validator();
+    private static final Validator VALIDATOR = new Validator();
     private MapSchema schema;
-    private final static Map<Integer, String> TESTING_MAP = Map.of(
+    private static final Map<Integer, String> TESTING_MAP = Map.of(
             0, "value0",
             1, "value1",
             2, "value2",
@@ -26,7 +26,7 @@ public class MapSchemaTest {
     );
 
     @BeforeEach
-    public void initialization() {
+    public final void initialization() {
         schema = VALIDATOR.map();
     }
 
@@ -43,7 +43,7 @@ public class MapSchemaTest {
     }
 
     @Test
-    public void requiredSchemaWithNullTest(){
+    public void requiredSchemaWithNullTest() {
         schema.required();
         boolean resultRequiredNull = schema.isValid(null);
         assertFalse(resultRequiredNull);

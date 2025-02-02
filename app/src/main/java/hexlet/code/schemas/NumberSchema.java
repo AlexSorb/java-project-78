@@ -4,16 +4,16 @@ import java.util.function.Predicate;
 
 public class NumberSchema extends BaseSchema<Integer> {
 
-    private final static String POSITIVE_SCHEMA_NAME = "positive";
-    private final static String RANGE_SCHEMA_NAME = "range";
+    private static final String POSITIVE_SCHEMA_NAME = "positive";
+    private static final String RANGE_SCHEMA_NAME = "range";
 
-    public NumberSchema positive() {
+    public final NumberSchema positive() {
         Predicate<Integer> predicate = date -> date == null || date > 0;
-        super.namedPredicate.put(POSITIVE_SCHEMA_NAME, predicate);
+        super.getNamedPredicate().put(POSITIVE_SCHEMA_NAME, predicate);
         return this;
     }
 
-    public NumberSchema range(Integer left, Integer right) throws IllegalArgumentException {
+    public final NumberSchema range(Integer left, Integer right) throws IllegalArgumentException {
         if (left == null || right == null) {
             throw new IllegalArgumentException("Граница диапазона не может быть null");
         }
@@ -27,7 +27,7 @@ public class NumberSchema extends BaseSchema<Integer> {
             }
             return  (leftBord <= data) && (data <= rightBord);
         };
-        super.namedPredicate.put(RANGE_SCHEMA_NAME, predicate);
+        super.getNamedPredicate().put(RANGE_SCHEMA_NAME, predicate);
         return this;
     }
 

@@ -8,10 +8,10 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 public class BaseSchemaTest {
     private BaseSchema<Object> baseSchema;
 
-    private final static Object TEST_OBJECT = "Any object";
+    private static final Object TEST_OBJECT = "Any object";
 
     @BeforeEach
-    public void initialization() {
+    public final void initialization() {
         baseSchema = new BaseSchema<>();
     }
 

@@ -10,23 +10,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ShapeFunctionTest {
-    private final static Validator VALIDATOR = new Validator();
+    private static final Validator VALIDATOR = new Validator();
     private MapSchema schema;
     private HashMap<String, BaseSchema> schemas = new HashMap<>();
 
-    private final static Map<String,Object> TEST_MAP_VALID = Map.of(
+    private static final Map<String, Object> TEST_MAP_VALID = Map.of(
             "firstName", "John",
-            "lastName", "Smith"
-    );
+            "lastName", "Smith");
     private  Map<String, Object> testMapNoValidEmpty = new HashMap<>();
 
-    private final static Map<String, Object> TEST_MAP_NO_VALID_SHORT_SIZE = Map.of(
+    private static final Map<String, Object> TEST_MAP_NO_VALID_SHORT_SIZE = Map.of(
             "firstName", "Anna",
             "lastName", "B"
     );
 
     @BeforeEach
-    public void initialization() {
+    public final void initialization() {
         schema = VALIDATOR.map();
         schemas.put("firstName", VALIDATOR.string().required());
         schemas.put("lastName", VALIDATOR.string().required().minLength(2));
