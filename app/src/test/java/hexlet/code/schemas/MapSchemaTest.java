@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Map;
 
@@ -24,6 +26,9 @@ public class MapSchemaTest {
             8, "value8",
             9, "value9"
     );
+
+    private static final int LITTLE_SIZE_TEST_NUMBER = 2;
+    private static final int NEGATIVE_SIZE_TEST_NUMBER = -1;
 
     @BeforeEach
     public final void initialization() {
@@ -59,7 +64,7 @@ public class MapSchemaTest {
 
     @Test
     public void sizeOfSchemaWithLittleSize() {
-        schema.sizeof(2);
+        schema.sizeof(LITTLE_SIZE_TEST_NUMBER);
         boolean resultLittleSeize = schema.isValid(TESTING_MAP);
         assertFalse(resultLittleSeize);
     }
@@ -69,5 +74,11 @@ public class MapSchemaTest {
         schema.sizeof(TESTING_MAP.size());
         boolean resultCurrentSeize = schema.isValid(TESTING_MAP);
         assertTrue(resultCurrentSeize);
+    }
+
+    @Test
+    public void sizeOfSchemaWithNegativeSize() {
+        var throwContent = assertThrows(IllegalArgumentException.class, () -> schema.sizeof(NEGATIVE_SIZE_TEST_NUMBER));
+        assertEquals("Размер не может быть отрицательным", throwContent.getMessage());
     }
 }

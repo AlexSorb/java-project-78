@@ -12,12 +12,12 @@ import java.util.Map;
 public class ShapeFunctionTest {
     private static final Validator VALIDATOR = new Validator();
     private MapSchema schema;
-    private HashMap<String, BaseSchema> schemas = new HashMap<>();
+    private final HashMap<String, BaseSchema> schemas = new HashMap<>();
 
     private static final Map<String, Object> TEST_MAP_VALID = Map.of(
             "firstName", "John",
             "lastName", "Smith");
-    private  Map<String, Object> testMapNoValidEmpty = new HashMap<>();
+    private final   Map<String, Object> testMapNoValidEmpty = new HashMap<>();
 
     private static final Map<String, Object> TEST_MAP_NO_VALID_SHORT_SIZE = Map.of(
             "firstName", "Anna",

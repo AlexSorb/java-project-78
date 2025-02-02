@@ -117,19 +117,20 @@ public class NumberSchemaTest {
 
     @Test
     public void rangeWithNumberBordNullTest() {
-        var throwContains = assertThrows(IllegalArgumentException.class, () -> {
-            schema.range(null, TEST_RIGHT_RANGE);
-        });
+        var throwContains = assertThrows(IllegalArgumentException.class, () -> schema.range(null, TEST_RIGHT_RANGE));
         assertEquals("Граница диапазона не может быть null", throwContains.getMessage());
 
-        throwContains = assertThrows(IllegalArgumentException.class, () -> {
-            schema.range(TEST_LEFT_RANGE, null);
-        });
+        throwContains = assertThrows(IllegalArgumentException.class, () -> schema.range(TEST_LEFT_RANGE, null));
         assertEquals("Граница диапазона не может быть null", throwContains.getMessage());
 
-        throwContains = assertThrows(IllegalArgumentException.class, () -> {
-            schema.range(null, null);
-        });
+        throwContains = assertThrows(IllegalArgumentException.class, () -> schema.range(null, null));
         assertEquals("Граница диапазона не может быть null", throwContains.getMessage());
+    }
+
+    @Test
+    public void fullSchemaTest() {
+        schema.positive().range(Integer.MIN_VALUE, Integer.MAX_VALUE).range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE);
+        boolean resultFullTest = schema.isValid(TEST_POSITIVE_NUMBER);
+        assertTrue(resultFullTest);
     }
 }

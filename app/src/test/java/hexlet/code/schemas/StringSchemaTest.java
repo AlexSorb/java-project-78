@@ -99,9 +99,7 @@ public class StringSchemaTest {
 
     @Test
     public void minLengthSchemaWithNegativeValueLengthTest() {
-        var throwContains = assertThrows(IllegalArgumentException.class, () -> {
-            schema.minLength(NEGATIVE_LENGTH);
-        });
+        var throwContains = assertThrows(IllegalArgumentException.class, () -> schema.minLength(NEGATIVE_LENGTH));
         assertEquals("Length less than zero", throwContains.getMessage());
     }
 
@@ -142,5 +140,12 @@ public class StringSchemaTest {
         schema.contains(TESTING_STRING);
         boolean resulNullData = schema.isValid(null);
         assertFalse(resulNullData);
+    }
+
+    @Test
+    public void fullSchemaTest() {
+        schema.minLength(BIG_LENGTH).contains(NOT_CONTAINS_WORD).minLength(LITTLE_LENGTH).contains(CONTAINS_WORD);
+        boolean resultFullTest = schema.isValid(TESTING_STRING);
+        assertTrue(resultFullTest);
     }
 }
