@@ -4,11 +4,14 @@ import java.util.function.Predicate;
 
 public class StringSchema extends BaseSchema<String> {
 
+    private final static String REQUIRED_SCHEMA_NAME = "required";
+    private final static String MIN_LENGTH_SCHEMA_NAME = "minLength";
+    private final static String CONTAINS_SCHEMA_NAME = "contains";
+
     @Override
     public StringSchema required() {
         Predicate<String> predicate = data -> data != null && !data.isEmpty();
-        String predicateName = "required";
-        namedPredicate.put(predicateName, predicate);
+        namedPredicate.put(REQUIRED_SCHEMA_NAME, predicate);
         return this;
     }
 
@@ -18,9 +21,8 @@ public class StringSchema extends BaseSchema<String> {
             throw new IllegalArgumentException("Length less than zero");
         }
 
-        String predicateName = "minLength";
         Predicate<String> predicate = data -> data != null && data.length() >= minLength;
-        super.namedPredicate.put(predicateName, predicate);
+        super.namedPredicate.put(MIN_LENGTH_SCHEMA_NAME, predicate);
 
         return this;
     }
@@ -32,8 +34,7 @@ public class StringSchema extends BaseSchema<String> {
 
         final String searchString = subString;
         Predicate<String> predicate = date -> !(date == null) && date.contains(searchString);
-        String predicateName = "contains";
-        super.namedPredicate.put(predicateName, predicate);
+        super.namedPredicate.put(CONTAINS_SCHEMA_NAME, predicate);
         return this;
     }
 

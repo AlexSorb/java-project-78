@@ -14,16 +14,13 @@ public class ShapeFunctionTest {
     private MapSchema schema;
     private HashMap<String, BaseSchema> schemas = new HashMap<>();
 
-    private final static Map<String,String> TEST_MAP_VALID = Map.of(
+    private final static Map<String,Object> TEST_MAP_VALID = Map.of(
             "firstName", "John",
             "lastName", "Smith"
     );
-    private final static Map<String, String> TEST_MAP_NO_VALID_EMPTY = Map.of(
-            "firstName", "John",
-            "lastName", null
-    );
+    private  Map<String, Object> testMapNoValidEmpty = new HashMap<>();
 
-    private final static Map<String, String> TEST_MAP_NO_VALID_SHORT_SIZE = Map.of(
+    private final static Map<String, Object> TEST_MAP_NO_VALID_SHORT_SIZE = Map.of(
             "firstName", "Anna",
             "lastName", "B"
     );
@@ -34,12 +31,15 @@ public class ShapeFunctionTest {
         schemas.put("firstName", VALIDATOR.string().required());
         schemas.put("lastName", VALIDATOR.string().required().minLength(2));
         schema.shape(schemas);
+
+        testMapNoValidEmpty.put("firstName", "John");
+        testMapNoValidEmpty.put("lastName", null);
     }
 
 
     @Test
     public void shapeFunctionWithNull() {
-        boolean resultWithEmpty = schema.isValid(TEST_MAP_NO_VALID_EMPTY);
+        boolean resultWithEmpty = schema.isValid(testMapNoValidEmpty);
         assertFalse(resultWithEmpty);
     }
 

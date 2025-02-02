@@ -6,6 +6,7 @@ import java.util.function.Predicate;
 
 public class BaseSchema <T> {
 
+    private final static String REQUIRED_SCHEMA_NAME = "required";
     private boolean isValid = true;
     Map<String, Predicate<T>> namedPredicate;
 
@@ -13,9 +14,9 @@ public class BaseSchema <T> {
         namedPredicate = new HashMap<>();
     }
     public BaseSchema<T> required() {
+
         Predicate<T> predicate = data -> isValid = data != null;
-        String name = "required";
-        namedPredicate.put(name, predicate);
+        namedPredicate.put(REQUIRED_SCHEMA_NAME, predicate);
         return this;
     }
 

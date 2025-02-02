@@ -4,10 +4,9 @@ import java.util.Map;
 import java.util.function.Predicate;
 
 public class MapSchema extends BaseSchema<Map<?, ?>> {
-    private final String SIZEOF_NAME = "sizeof";
+    private final static String SIZE_OF_SCHEMA_NAME = "sizeof";
+    private final static String SHAPE_SCHEMA_NAME = "shape";
 
-    private Map<?, BaseSchema> schemas;
-    private boolean isValid = true;
 
     public MapSchema sizeof(int size) {
         if (size < 0) {
@@ -16,28 +15,30 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
 
         final int checkSize = size;
         Predicate<Map<?, ?>> predicate = data -> data.size() == checkSize;
-        super.namedPredicate.put(SIZEOF_NAME, predicate);
+        super.namedPredicate.put(SIZE_OF_SCHEMA_NAME, predicate);
         return this;
     }
 
     public void shape(Map<?, BaseSchema> schema) {
-        this.schemas = schema;
+        Predicate<Map<?, ?>> predicate = (data) -> {
+            var keyDataSet = data.keySet();
+            boolean isValis = true;
+
+            for (var key : keyDataSet) {
+                var currentSchema = schema.get(key);
+                if (isValis == true) {
+                    isValis = currentSchema.isValid(data.get(key));
+                }
+            }
+                return isValis;
+        };
+
+        super.namedPredicate.put(SHAPE_SCHEMA_NAME, predicate);
     }
 
-//    @Override
-//    public boolean isValid(Map<?, ?> data) {
-//
-//        if (schemas != null && isValid) {
-//            for (var key : data.keySet()) {
-//                var currentSchema = schemas.get(key);
-//                isValid = currentSchema.isValid(data.get(key));
-//            }
-//        } else if (schemas == null && isValid) {
-//
-//        }
-//
-//        boolean result = isValid;
-//        isValid = true;
-//        return result;
-//    }
+    @Override
+    public boolean isValid(Map<?, ?> data) {
+
+        return super.isValid(data);
+    }
 }
