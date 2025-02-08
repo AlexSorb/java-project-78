@@ -15,7 +15,7 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
 
         final int checkSize = size;
         Predicate<Map<?, ?>> predicate = data -> data.size() == checkSize;
-        super.getNamedPredicate().put(SIZE_OF_SCHEMA_NAME, predicate);
+        super.checks.put(SIZE_OF_SCHEMA_NAME, predicate);
         return this;
     }
 
@@ -33,7 +33,7 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
             return isValid;
         };
 
-        super.getNamedPredicate().put(SHAPE_SCHEMA_NAME, predicate);
+        super.checks.put(SHAPE_SCHEMA_NAME, predicate);
     }
 
 }
