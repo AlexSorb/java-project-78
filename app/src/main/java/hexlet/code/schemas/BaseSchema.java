@@ -8,7 +8,7 @@ public class BaseSchema<T> {
 
     private static final String REQUIRED_SCHEMA_NAME = "required";
     private boolean isValid = true;
-    protected final Map<String, Predicate<T>> checks;
+    protected Map<String, Predicate<T>> checks;
 
     public BaseSchema() {
         checks = new LinkedHashMap<>();

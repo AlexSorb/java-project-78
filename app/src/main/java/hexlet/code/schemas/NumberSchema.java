@@ -9,7 +9,7 @@ public class NumberSchema extends BaseSchema<Integer> {
 
     public final NumberSchema positive() {
         Predicate<Integer> predicate = date -> date == null || date > 0;
-        super.checks.put(POSITIVE_SCHEMA_NAME, predicate);
+        checks.put(POSITIVE_SCHEMA_NAME, predicate);
         return this;
     }
 
@@ -27,7 +27,7 @@ public class NumberSchema extends BaseSchema<Integer> {
             }
             return  (leftBord <= data) && (data <= rightBord);
         };
-        super.checks.put(RANGE_SCHEMA_NAME, predicate);
+        checks.put(RANGE_SCHEMA_NAME, predicate);
         return this;
     }
 
