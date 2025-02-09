@@ -133,4 +133,27 @@ public class NumberSchemaTest {
         boolean resultFullTest = schema.isValid(TEST_POSITIVE_NUMBER);
         assertTrue(resultFullTest);
     }
+
+    @Test
+    public void interactionSchemasRequiredAndPositive() {
+        schema.positive().required();
+
+        boolean resultWithNull = schema.isValid(null);
+        assertFalse(resultWithNull);
+
+        boolean resultWithZeroNumber = schema.isValid(TEST_ZERO_NUMBER);
+        assertFalse(resultWithZeroNumber);
+
+        boolean resultWithNegativeNumber = schema.isValid(TEST_NEGATIVE_NUMBER);
+        assertFalse(resultWithNegativeNumber);
+
+        boolean resultWithPositiveNumber = schema.isValid(TEST_POSITIVE_NUMBER);
+        assertTrue(resultWithPositiveNumber);
+    }
+
+    @Test
+    public void interactionSchemasRequiredAndRange() {
+        schema.range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE).required();
+
+    }
 }

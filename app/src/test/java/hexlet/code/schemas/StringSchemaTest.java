@@ -12,7 +12,9 @@ public class StringSchemaTest {
 
     private static final Validator VALIDATOR = new Validator();
     private StringSchema schema;
-    private static final String TESTING_STRING = "what does the fox say";
+    private static final String TESTING_VALID_STRING = "what does the fox say";
+    private static final String TESTING_NOT_VALID_STRING = "This string don't contain searched string";
+    private static final String TESTING_SHORT_STRING = "min";
     private static final String CONTAINS_WORD = "what";
     private static final String CONTAINS_SYLLABLE = "wh";
     private static final String NOT_CONTAINS_WORD = "Not Contain";
@@ -41,7 +43,7 @@ public class StringSchemaTest {
 
     @Test
     public void isValidWithoutSchemasWithStringTest() {
-        boolean resultRandomString = schema.isValid(TESTING_STRING);
+        boolean resultRandomString = schema.isValid(TESTING_VALID_STRING);
         assertTrue(resultRandomString);
     }
 
@@ -72,21 +74,21 @@ public class StringSchemaTest {
     @Test
     public void minLengthSchemaWithLittleLengthTest() {
         schema.minLength(LITTLE_LENGTH);
-        boolean resultFiveLength = schema.isValid(TESTING_STRING);
+        boolean resultFiveLength = schema.isValid(TESTING_VALID_STRING);
         assertTrue(resultFiveLength);
     }
 
     @Test
     public void minLengthSchemaWithBigLengthTest() {
         schema.minLength(BIG_LENGTH);
-        boolean resultHundredLength = schema.isValid(TESTING_STRING);
+        boolean resultHundredLength = schema.isValid(TESTING_VALID_STRING);
         assertFalse(resultHundredLength);
     }
 
     @Test
     public void redefineMinLengthSchemaTest() {
         schema.minLength(BIG_LENGTH).minLength(LITTLE_LENGTH);
-        boolean resultChangeLength = schema.isValid(TESTING_STRING);
+        boolean resultChangeLength = schema.isValid(TESTING_VALID_STRING);
         assertTrue(resultChangeLength);
     }
 
@@ -106,21 +108,21 @@ public class StringSchemaTest {
     @Test
     public void containsSchemaWithContainsFindWordTest() {
         schema.contains(CONTAINS_WORD);
-        boolean resultContainWord = schema.isValid(TESTING_STRING);
+        boolean resultContainWord = schema.isValid(TESTING_VALID_STRING);
         assertTrue(resultContainWord);
     }
 
     @Test
     public void containsSchemaWithContainsFindSyllableTest() {
         schema.contains(CONTAINS_SYLLABLE);
-        boolean resultContainSyllable = schema.isValid(TESTING_STRING);
+        boolean resultContainSyllable = schema.isValid(TESTING_VALID_STRING);
         assertTrue(resultContainSyllable);
     }
 
     @Test
     public void containsSchemaWithNotContainsFindWordTest() {
         schema.contains(NOT_CONTAINS_WORD);
-        boolean resultNotContainWord = schema.isValid(TESTING_STRING);
+        boolean resultNotContainWord = schema.isValid(TESTING_VALID_STRING);
         assertFalse(resultNotContainWord);
     }
 
@@ -128,7 +130,7 @@ public class StringSchemaTest {
     public void containsSchemaWithNullContainsStringTest() {
         var throwContains = assertThrows(IllegalArgumentException.class, () -> {
             schema.contains(null);
-            schema.isValid(TESTING_STRING);
+            schema.isValid(TESTING_VALID_STRING);
         });
 
         String errorMessage = "Not null";
@@ -137,7 +139,7 @@ public class StringSchemaTest {
 
     @Test
     public void containsSchemaWithNullDataStringTest() {
-        schema.contains(TESTING_STRING);
+        schema.contains(TESTING_VALID_STRING);
         boolean resulNullData = schema.isValid(null);
         assertFalse(resulNullData);
     }
@@ -145,7 +147,60 @@ public class StringSchemaTest {
     @Test
     public void fullSchemaTest() {
         schema.minLength(BIG_LENGTH).contains(NOT_CONTAINS_WORD).minLength(LITTLE_LENGTH).contains(CONTAINS_WORD);
-        boolean resultFullTest = schema.isValid(TESTING_STRING);
+        boolean resultFullTest = schema.isValid(TESTING_VALID_STRING);
         assertTrue(resultFullTest);
     }
+
+    @Test
+    public void interactionSchemasMinLengthAndContainsTest() {
+        schema.minLength(LITTLE_LENGTH).contains(CONTAINS_WORD);
+
+        boolean resultWithNull = schema.isValid(null);
+        assertFalse(resultWithNull);
+
+        boolean resultWithNotContainsWord = schema.isValid(TESTING_NOT_VALID_STRING);
+        assertFalse(resultWithNotContainsWord);
+
+        boolean resultWithShortString = schema.isValid(TESTING_SHORT_STRING);
+        assertFalse(resultWithShortString);
+
+        boolean resultWithValidString = schema.isValid(TESTING_VALID_STRING);
+        assertTrue(resultWithValidString);
+    }
+
+    @Test
+    public void interactionSchemasRequiredAndContainsTest() {
+        schema.required().contains(CONTAINS_SYLLABLE);
+
+        boolean resultWithNull = schema.isValid(null);
+        assertFalse(resultWithNull);
+
+        boolean resultWithEmptyString = schema.isValid("");
+        assertFalse(resultWithEmptyString);
+
+        boolean resultWithNotValidString = schema.isValid(TESTING_NOT_VALID_STRING);
+        assertFalse(resultWithNotValidString);
+
+        boolean resultWithValidString = schema.isValid(TESTING_VALID_STRING);
+        assertTrue(resultWithValidString);
+
+    }
+
+    @Test
+    public void interactionSchemasRequiredAndMinLengthTest() {
+        schema.minLength(LITTLE_LENGTH).required();
+
+        boolean resultWithNull = schema.isValid(null);
+        assertFalse(resultWithNull);
+
+        boolean resultWithEmptyString = schema.isValid("");
+        assertFalse(resultWithEmptyString);
+
+        boolean resultWithShortString = schema.isValid(TESTING_SHORT_STRING);
+        assertFalse(resultWithShortString);
+
+        boolean resultWithValidString = schema.isValid(TESTING_VALID_STRING);
+        assertTrue(resultWithValidString);
+    }
+
 }
