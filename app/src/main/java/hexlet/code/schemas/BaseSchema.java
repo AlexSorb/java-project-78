@@ -1,8 +1,6 @@
 package hexlet.code.schemas;
 
-import lombok.Getter;
-
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Predicate;
 
@@ -13,7 +11,7 @@ public class BaseSchema<T> {
     protected final Map<String, Predicate<T>> checks;
 
     public BaseSchema() {
-        checks = new HashMap<>();
+        checks = new LinkedHashMap<>();
     }
 
     /**
