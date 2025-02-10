@@ -155,5 +155,13 @@ public class NumberSchemaTest {
     public void interactionSchemasRequiredAndRange() {
         schema.range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE).required();
 
+        boolean resultWithNull = schema.isValid(null);
+        assertFalse(resultWithNull);
+
+        boolean resultWithNoRangeNumber = schema.isValid(Integer.MAX_VALUE);
+        assertFalse(resultWithNoRangeNumber);
+
+        boolean resultWithInRangeNumber = schema.isValid(TEST_POSITIVE_NUMBER);
+        assertTrue(resultWithInRangeNumber);
     }
 }
