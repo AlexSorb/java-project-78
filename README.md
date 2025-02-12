@@ -7,5 +7,12 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/8d20511ba2a3768047f9/test_coverage)](https://codeclimate.com/github/AlexSorb/java-project-78/test_coverage)
 
 ## Описание
-Валидатор данных – библиотека, с помощью которой можно проверять корректность любых данных. 
 
+
+## Как работает
+
+### String
+
+### Integer
+
+### Map
