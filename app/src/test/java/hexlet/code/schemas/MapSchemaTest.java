@@ -9,6 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class MapSchemaTest {
@@ -81,4 +82,24 @@ public class MapSchemaTest {
         var throwContent = assertThrows(IllegalArgumentException.class, () -> schema.sizeof(NEGATIVE_SIZE_TEST_NUMBER));
         assertEquals("Размер не может быть отрицательным", throwContent.getMessage());
     }
+
+    @Test
+    public void interactionFullSchemasTest() {
+        schema.sizeof(LITTLE_SIZE_TEST_NUMBER).required();
+
+        boolean resultWithNull = schema.isValid(null);
+        assertFalse(resultWithNull);
+
+        boolean resultWithEmptyMap = schema.isValid(new HashMap<>());
+        assertFalse(resultWithEmptyMap);
+
+        boolean resultWithTestMap = schema.isValid(TESTING_MAP);
+        assertTrue(resultWithTestMap);
+    }
+
+
+
+
+
+
 }

@@ -145,7 +145,7 @@ public class StringSchemaTest {
     }
 
     @Test
-    public void fullSchemaTest() {
+    public void interactionFullSchemasTest() {
         schema.minLength(BIG_LENGTH).contains(NOT_CONTAINS_WORD).minLength(LITTLE_LENGTH).contains(CONTAINS_WORD);
         boolean resultFullTest = schema.isValid(TESTING_VALID_STRING);
         assertTrue(resultFullTest);

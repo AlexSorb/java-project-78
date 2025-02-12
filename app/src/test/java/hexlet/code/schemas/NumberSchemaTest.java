@@ -14,6 +14,7 @@ public class NumberSchemaTest {
     private NumberSchema schema;
     private static final Integer TEST_POSITIVE_NUMBER = 5;
     private static final Integer TEST_NEGATIVE_NUMBER = -5;
+    private static final Integer TEST_NEGATIVE_NUMBER_IN_RANGE = -1;
     private static final Integer TEST_ZERO_NUMBER = 0;
 
     private static final Integer TEST_LEFT_RANGE = -4;
@@ -128,7 +129,7 @@ public class NumberSchemaTest {
     }
 
     @Test
-    public void fullSchemaTest() {
+    public void interactionFullSchemasTest() {
         schema.positive().range(Integer.MIN_VALUE, Integer.MAX_VALUE).range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE);
         boolean resultFullTest = schema.isValid(TEST_POSITIVE_NUMBER);
         assertTrue(resultFullTest);
@@ -163,5 +164,19 @@ public class NumberSchemaTest {
 
         boolean resultWithInRangeNumber = schema.isValid(TEST_POSITIVE_NUMBER);
         assertTrue(resultWithInRangeNumber);
+    }
+
+    @Test
+    public void interactionSchemasPositiveAndRange() {
+        schema.positive().range(TEST_LEFT_RANGE, TEST_RIGHT_RANGE);
+
+        boolean resultWithNegativeNumberOutOfRange = schema.isValid(TEST_NEGATIVE_NUMBER);
+        assertFalse(resultWithNegativeNumberOutOfRange);
+
+        boolean resultWithNegativeNumberInRange = schema.isValid(TEST_NEGATIVE_NUMBER_IN_RANGE);
+        assertFalse(resultWithNegativeNumberInRange);
+
+        boolean resultWithPositiveNumberInRange = schema.isValid(TEST_POSITIVE_NUMBER);
+        assertTrue(resultWithPositiveNumberInRange);
     }
 }

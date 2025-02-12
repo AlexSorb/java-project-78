@@ -17,6 +17,9 @@ public class ShapeFunctionTest {
     private static final Map<String, Object> TEST_MAP_VALID = Map.of(
             "firstName", "John",
             "lastName", "Smith");
+
+    private static final Map<String, Object> TEST_SHORT_MAP = Map.of(
+            "firstName", "John");
     private final   Map<String, Object> testMapNoValidEmpty = new HashMap<>();
 
     private static final Map<String, Object> TEST_MAP_NO_VALID_SHORT_SIZE = Map.of(
@@ -54,4 +57,17 @@ public class ShapeFunctionTest {
         assertFalse(resultWithShortSize);
     }
 
+    @Test
+    public void interactionFullSchemasTest() {
+        schema.sizeof(TEST_MAP_VALID.size()).required();
+
+        boolean resultWithNull = schema.isValid(null);
+        assertFalse(resultWithNull);
+
+        boolean resultWithShortMap = schema.isValid(TEST_SHORT_MAP);
+        assertFalse(resultWithShortMap);
+
+        boolean resultWithValidMap = schema.isValid(TEST_MAP_VALID);
+        assertTrue(resultWithValidMap);
+    }
 }
