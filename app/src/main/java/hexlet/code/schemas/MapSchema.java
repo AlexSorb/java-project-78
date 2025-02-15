@@ -25,23 +25,22 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
     public final void shape(Map<?, BaseSchema> schema) {
-        Predicate<Map<?, ?>> predicate = (data) -> {
 
+        Predicate<Map<?, ?>> predicate = data -> {
             if (data == null) {
                 return false;
             }
 
-            var keyDataSet = data.keySet();
-            boolean isValid = true;
+            return schema.entrySet().stream()
+                    .allMatch(baseSchemaEntry -> {
+                        var currentKey = baseSchemaEntry.getKey();
+                        var currentPredicate = baseSchemaEntry.getValue();
 
-            for (var key : keyDataSet) {
-                var currentSchema = schema.get(key);
-                if (isValid) {
-                    isValid = currentSchema.isValid(data.get(key));
-                }
-            }
-            return isValid;
+                        return currentPredicate.isValid(data.get(currentKey));
+                    });
+
         };
+
         addCheck(SHAPE_SCHEMA_NAME, predicate);
     }
 
