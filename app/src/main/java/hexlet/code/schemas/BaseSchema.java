@@ -8,10 +8,28 @@ public class BaseSchema<T> {
 
     private static final String REQUIRED_SCHEMA_NAME = "required";
     private boolean isValid = true;
-    protected Map<String, Predicate<T>> checks;
+    private Map<String, Predicate<T>> checks;
 
     public BaseSchema() {
         checks = new LinkedHashMap<>();
+    }
+
+    /**
+     * Функция добовляет проверку в LinkedHashMap проверок.
+     *
+     * @param checkName - название проверки
+     * @param check - предикат проверки на валидность
+     */
+    protected void addCheck(String checkName, Predicate<T> check) {
+        if (check == null) {
+            throw new IllegalArgumentException("Predicate can't be null");
+        }
+
+        if (checkName.isEmpty()) {
+            throw new IllegalArgumentException("Name can't be null");
+        }
+
+        checks.put(checkName, check);
     }
 
     /**
@@ -21,7 +39,7 @@ public class BaseSchema<T> {
     public BaseSchema<T> required() {
 
         Predicate<T> predicate = data -> isValid = data != null;
-        checks.put(REQUIRED_SCHEMA_NAME, predicate);
+        addCheck(REQUIRED_SCHEMA_NAME, predicate);
         return this;
     }
 

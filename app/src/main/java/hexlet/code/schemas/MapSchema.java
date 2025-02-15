@@ -14,13 +14,23 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
         }
 
         final int checkSize = size;
-        Predicate<Map<?, ?>> predicate = data -> data.size() == checkSize;
-        checks.put(SIZE_OF_SCHEMA_NAME, predicate);
+        Predicate<Map<?, ?>> predicate = data -> {
+            if (data == null) {
+                return false;
+            }
+            return data.size() == checkSize;
+        };
+        addCheck(SIZE_OF_SCHEMA_NAME, predicate);
         return this;
     }
 
     public final void shape(Map<?, BaseSchema> schema) {
         Predicate<Map<?, ?>> predicate = (data) -> {
+
+            if (data == null) {
+                return false;
+            }
+
             var keyDataSet = data.keySet();
             boolean isValid = true;
 
@@ -32,7 +42,7 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
             }
             return isValid;
         };
-        checks.put(SHAPE_SCHEMA_NAME, predicate);
+        addCheck(SHAPE_SCHEMA_NAME, predicate);
     }
 
 }

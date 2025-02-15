@@ -11,7 +11,7 @@ public class StringSchema extends BaseSchema<String> {
     @Override
     public final StringSchema required() {
         Predicate<String> predicate = data -> data != null && !data.isEmpty();
-        checks.put(REQUIRED_SCHEMA_NAME, predicate);
+        addCheck(REQUIRED_SCHEMA_NAME, predicate);
         return this;
     }
 
@@ -22,8 +22,7 @@ public class StringSchema extends BaseSchema<String> {
         }
 
         Predicate<String> predicate = data -> data != null && data.length() >= minLength;
-        checks.put(MIN_LENGTH_SCHEMA_NAME, predicate);
-
+        addCheck(MIN_LENGTH_SCHEMA_NAME, predicate);
         return this;
     }
 
@@ -34,7 +33,7 @@ public class StringSchema extends BaseSchema<String> {
 
         final String searchString = subString;
         Predicate<String> predicate = date -> !(date == null) && date.contains(searchString);
-        checks.put(CONTAINS_SCHEMA_NAME, predicate);
+        addCheck(CONTAINS_SCHEMA_NAME, predicate);
         return this;
     }
 }

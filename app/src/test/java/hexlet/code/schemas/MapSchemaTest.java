@@ -85,7 +85,7 @@ public class MapSchemaTest {
 
     @Test
     public void interactionFullSchemasTest() {
-        schema.sizeof(LITTLE_SIZE_TEST_NUMBER).required();
+        schema.sizeof(TESTING_MAP.size()).required();
 
         boolean resultWithNull = schema.isValid(null);
         assertFalse(resultWithNull);
