@@ -7,7 +7,6 @@ import java.util.function.Predicate;
 public class BaseSchema<T> {
 
     private static final String REQUIRED_SCHEMA_NAME = "required";
-    private boolean isValid = true;
     private Map<String, Predicate<T>> checks;
 
     public BaseSchema() {
@@ -38,20 +37,14 @@ public class BaseSchema<T> {
      */
     public BaseSchema<T> required() {
 
-        Predicate<T> predicate = data -> isValid = data != null;
+        Predicate<T> predicate = data -> data != null;
         addCheck(REQUIRED_SCHEMA_NAME, predicate);
         return this;
     }
 
     public final boolean isValid(T data) {
-        checks.forEach((s, tPredicate) -> {
-            if (isValid) {
-                isValid = tPredicate.test(data);
-            }
-        });
-        var result = isValid;
-        this.isValid = true;
-        return result;
+        Predicate<T> predicate = (t) -> checks.values().stream().allMatch(p -> p.test(t));
+        return predicate.test(data);
     }
 
 }
