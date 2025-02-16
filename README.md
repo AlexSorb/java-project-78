@@ -7,7 +7,9 @@
 [![Test Coverage](https://api.codeclimate.com/v1/badges/8d20511ba2a3768047f9/test_coverage)](https://codeclimate.com/github/AlexSorb/java-project-78/test_coverage)
 
 ## Описание
-Эта библиотек разработа для помощи в валидацйии 
+Этот проект на Java предназначен для валидации объектов типов Integer, Map и String.
+Он предоставляет набор инструментов и методов для проверки корректности данных,
+что позволяет разработчикам легко интегрировать валидацию в свои приложения.
 
 ## Как работает
 
@@ -31,17 +33,29 @@
 
 ## Настрока схемы валидации
 
-### String
-
+### Валидация String
+Схема валидации строк имеет несколько возможных настроек:
+required - проверка на Null и на пустую строку
+minLength - устанавливат минимальный размер строки
+contains - проверяет на вхождение строки в тестируемаю строку 
 ```java
 import hexlet.code.Validator;
 import hexlet.code.schemas.StringSchema;
 
 Validator validator = new Validator();
 StringSchema stringSchema = validator.string();
+
+// Проверка на null и на путую строку 
+stringSchema.required();
+
+// Устанавливает ограничение на размер строки
+stringSchema.minLength(4);
+
+// Устанавливает ограничение на вхождение строки "Hello"
+stringSchema.contains("Hello");
 ```
 
-### Integer
+### Валидция Integer
 
 ```java
 import hexlet.code.Validator;
@@ -51,7 +65,7 @@ Validator validator = new Validator();
 NumberSchema numberSchema = validator.number();
 
 ```
-### Map
+### Валидация Map
 
 ```java
 
@@ -62,9 +76,4 @@ Validator validator = new Validator();
 
 MapSchema mapSchema = new MapSchema();
 
-```
-## Проверка валидности 
-
-```java
-NumberSchema numberSchema.isValid();
 ```
