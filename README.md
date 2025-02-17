@@ -15,26 +15,40 @@
 ## Как работает
 
 ### Validator
-Основной обыект для получения схемы валидации для конкретного типа данных.
+<p>
+    Класс Validator является основным компонентом, который возвращает конктретный валидатор в зависимости от типа данных.  
+</p>
+
+- string() - возвращает настраиваемую схему валидации для объектов типа String.
+- number() - возвращает настраиваемую схему валидации для объектов типа Integer.
+- map() - возвращает настраиваемую схему валидации для объектов типа Map. 
+
+#### Пример использования 
 
 ```java
     import hexlet.code.Validator;
 
-    Validator validator = new Validator();
+    public class Example {
+        Validator validator = new Validator();
 
-    // Получаем настраиваемую схему для валидации строк
-    var stringSchema = validator.string();
+        // Получаем настраиваемую схему для валидации строк
+        var stringSchema = validator.string();
 
-    // Получаем настраиваемую схему для валидации числовых значений
-    var numberSchema = validator.number();
+        // Получаем настраиваемую схему для валидации числовых значений
+        var numberSchema = validator.number();
 
-    // Получаем настраиваемую схему для валидации мапы
-    var mapSchema = validator.map();
+        // Получаем настраиваемую схему для валидации мапы
+        var mapSchema = validator.map();
+    }
 ```
 
 ## Настрока схемы валидации
 
-### Валидация String
+### StringSchema
+<p>
+    Эта схема отвеячает за валидацию объектов типа String.
+    Типы настроек схемы:
+</p>
 Схема валидации строк имеет несколько возможных настроек:
 - required - проверка на Null и на пустую строку
 - minLength - устанавливат минимальный размер строки
@@ -56,7 +70,15 @@ stringSchema.minLength(4);
 stringSchema.contains("Hello");
 ```
 
-### Валидция Integer
+### NumberSchema
+<p>
+    Эта схема отвеячает за валидацию объектов типа Integer.
+    Типы настроек схемы:
+</p>
+
+* required - проверка на Null
+* range(Integer left, Integer right) - проверка на вхождение проверяемого числа в диаппазон [left, right]
+* positive() - проверка 
 
 ```java
 import hexlet.code.Validator;
@@ -66,7 +88,11 @@ Validator validator = new Validator();
 NumberSchema numberSchema = validator.number();
 
 ```
-### Валидация Map
+### MapSchema
+<p>
+    Эта схема отвеячает за валидацию объектов типа Map.
+    Типы настроек схемы:
+</p>
 
 ```java
 
