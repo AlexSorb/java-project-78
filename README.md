@@ -6,10 +6,11 @@
 [![Maintainability](https://api.codeclimate.com/v1/badges/8d20511ba2a3768047f9/maintainability)](https://codeclimate.com/github/AlexSorb/java-project-78/maintainability)
 [![Test Coverage](https://api.codeclimate.com/v1/badges/8d20511ba2a3768047f9/test_coverage)](https://codeclimate.com/github/AlexSorb/java-project-78/test_coverage)
 
-## Описание
-Этот проект на Java предназначен для валидации объектов типов Integer, Map и String.
+## Описание Проекта
+<p>Этот проект на Java предназначен для валидации объектов типов Integer, Map и String.
 Он предоставляет набор инструментов и методов для проверки корректности данных,
-что позволяет разработчикам легко интегрировать валидацию в свои приложения.
+что позволяет разработчикам легко интегрировать валидацию в свои проекты. Проект использует Java 21 и инструмент сборки Gradle
+</p>
 
 ## Как работает
 
@@ -35,9 +36,9 @@
 
 ### Валидация String
 Схема валидации строк имеет несколько возможных настроек:
-required - проверка на Null и на пустую строку
-minLength - устанавливат минимальный размер строки
-contains - проверяет на вхождение строки в тестируемаю строку 
+- required - проверка на Null и на пустую строку
+- minLength - устанавливат минимальный размер строки
+- contains - проверяет на вхождение строки в тестируемаю строку 
 ```java
 import hexlet.code.Validator;
 import hexlet.code.schemas.StringSchema;
