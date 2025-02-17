@@ -1,4 +1,4 @@
-name: Vakudator-CI
+name: Validator-CI
 on:
   push:
      branches: [ "main" ]
