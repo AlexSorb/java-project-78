@@ -9,7 +9,7 @@
 ## Описание Проекта
 <p>Этот проект на Java предназначен для валидации объектов типов Integer, Map и String.
 Он предоставляет набор инструментов и методов для проверки корректности данных,
-что позволяет разработчикам легко интегрировать валидацию в свои проекты. Проект использует Java 21 и инструмент сборки Gradle
+что позволяет разработчикам легко интегрировать валидацию в свои проекты. Проект использует Java 21 и инструмент сборки Gradle.
 </p>
 
 ## Как работает
@@ -26,10 +26,12 @@
 #### Пример использования 
 
 ```java
-    import hexlet.code.Validator;
+import hexlet.code.Validator;
 
-    public class Example {
-        Validator validator = new Validator();
+public class Example {
+    public static void main(String[] args) {
+
+         Validator validator = new Validator();
 
         // Получаем настраиваемую схему для валидации строк
         var stringSchema = validator.string();
@@ -37,63 +39,95 @@
         // Получаем настраиваемую схему для валидации числовых значений
         var numberSchema = validator.number();
 
-        // Получаем настраиваемую схему для валидации мапы
+        // Получаем настраиваемую схему для валидации объектов Map
         var mapSchema = validator.map();
     }
+}
 ```
 
 ## Настрока схемы валидации
 
 ### StringSchema
+
 <p>
-    Эта схема отвеячает за валидацию объектов типа String.
-    Типы настроек схемы:
+    Эта схема отвеячает за валидацию объектов типа String. <br> Схема валидации строк имеет несколько возможных настроек:
 </p>
-Схема валидации строк имеет несколько возможных настроек:
-- required - проверка на Null и на пустую строку
-- minLength - устанавливат минимальный размер строки
-- contains - проверяет на вхождение строки в тестируемаю строку 
+
+* required( ) - проверка на Null и на пустую строку.
+* minLength(int size) - устанавливат минимальный размер строки.
+* contains(String text) - проверяет на вхождение строки text в тестируемаю строку.
+
+
+#### Пример использования
 ```java
 import hexlet.code.Validator;
 import hexlet.code.schemas.StringSchema;
 
-Validator validator = new Validator();
-StringSchema stringSchema = validator.string();
+public class Example {
+    public static void main(String[] args) {
 
-// Проверка на null и на путую строку 
-stringSchema.required();
+        Validator validator = new Validator();
+        StringSchema stringSchema = validator.string();
 
-// Устанавливает ограничение на размер строки
-stringSchema.minLength(4);
+        // Проверка на null и на путую строку 
+        stringSchema.required();
 
-// Устанавливает ограничение на вхождение строки "Hello"
-stringSchema.contains("Hello");
+        // Устанавливает ограничение на размер строки
+        stringSchema.minLength(4);
+
+        // Устанавливает ограничение на вхождение строки "Hello"
+        stringSchema.contains("Hello");
+    }
+}
 ```
+
 
 ### NumberSchema
 <p>
-    Эта схема отвеячает за валидацию объектов типа Integer.
-    Типы настроек схемы:
+    Эта схема отвеячает за валидацию объектов типа Integer.<br> 
+    Схема валидации чисел имеет несколько возможных настроек:
 </p>
 
-* required - проверка на Null
-* range(Integer left, Integer right) - проверка на вхождение проверяемого числа в диаппазон [left, right]
-* positive() - проверка 
+* required() - проверка на null.
+* range(Integer left, Integer right) - проверка на вхождение проверяемого числа в диаппазон [left, right].
+* positive() - проверяет является ли число положительным. 
+
+#### Пример использования 
 
 ```java
 import hexlet.code.Validator;
 import hexlet.code.schemas.NumberSchema;
 
-Validator validator = new Validator();
-NumberSchema numberSchema = validator.number();
+public class Example {
+    public static void main(String[] args) {
+
+        Validator validator = new Validator();
+        NumberSchema numberSchema = validator.number();
+
+        // Проверка на null
+        numberSchema.required();
+
+        // Устанавливает диаппазон ограничения
+        numberSchema.range(int left, int right);
+
+        // Проверяет является ли число положительным
+        numberSchema.positive();
+    }
+}
 
 ```
+
 ### MapSchema
 <p>
     Эта схема отвеячает за валидацию объектов типа Map.
-    Типы настроек схемы:
+    Схема валидации объектов Map имеет несколько возможных настроек:
 </p>
 
+* required() - проверка на Null
+* sizeof(int size) - проверка соответстве размера Map размеру size
+
+#### Пример использования 
+  
 ```java
 
 import hexlet.code.Validator;
@@ -103,4 +137,19 @@ Validator validator = new Validator();
 
 MapSchema mapSchema = new MapSchema();
 
+public class Example {
+    public static void main(String[] args) {
+
+        Validator validator = new Validator();
+        MapSchema mapSchema = new MapSchema();
+
+        // Проверка на null
+        mapSchema.required();
+
+        // Проверка соответствия размера
+        mapSchema.sizeof(2);
+    }
+}
 ```
+
+## Проверка валидности
