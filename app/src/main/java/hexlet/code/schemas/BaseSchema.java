@@ -19,7 +19,7 @@ public class BaseSchema<T> {
      * @param checkName - название проверки
      * @param check - предикат проверки на валидность
      */
-    protected void addCheck(String checkName, Predicate check) {
+    protected void addCheck(String checkName, Predicate<T> check) {
         if (check == null) {
             throw new IllegalArgumentException("Predicate can't be null");
         }

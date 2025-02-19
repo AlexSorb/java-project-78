@@ -12,7 +12,7 @@ import java.util.Map;
 public class ShapeFunctionTest {
     private static final Validator VALIDATOR = new Validator();
     private MapSchema schema;
-    private final HashMap<String, BaseSchema> schemas = new HashMap<>();
+    private final HashMap<String, BaseSchema<String>> schemas = new HashMap<>();
 
     private static final Map<String, Object> TEST_MAP_VALID = Map.of(
             "firstName", "John",

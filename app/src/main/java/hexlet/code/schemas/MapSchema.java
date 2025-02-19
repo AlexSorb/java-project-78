@@ -24,7 +24,7 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
         return this;
     }
 
-    public final void shape(Map<?, BaseSchema> schema) {
+    public final <T> void shape(Map<?, BaseSchema<T>> schema) {
 
         Predicate<Map<?, ?>> predicate = data -> {
             if (data == null) {
@@ -36,7 +36,7 @@ public class MapSchema extends BaseSchema<Map<?, ?>> {
                         var currentKey = baseSchemaEntry.getKey();
                         var currentPredicate = baseSchemaEntry.getValue();
 
-                        return currentPredicate.isValid(data.get(currentKey));
+                        return currentPredicate.isValid((T) data.get(currentKey));
                     });
 
         };
