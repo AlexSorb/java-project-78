@@ -7,7 +7,7 @@ import java.util.function.Predicate;
 public class BaseSchema<T> {
 
     private static final String REQUIRED_SCHEMA_NAME = "required";
-    private Map<String, Predicate<T>> checks;
+    private Map<String, Predicate> checks;
 
     public BaseSchema() {
         checks = new LinkedHashMap<>();
@@ -19,7 +19,7 @@ public class BaseSchema<T> {
      * @param checkName - название проверки
      * @param check - предикат проверки на валидность
      */
-    protected void addCheck(String checkName, Predicate<T> check) {
+    protected void addCheck(String checkName, Predicate check) {
         if (check == null) {
             throw new IllegalArgumentException("Predicate can't be null");
         }
