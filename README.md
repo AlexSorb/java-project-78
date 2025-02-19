@@ -133,10 +133,6 @@ public class Example {
 import hexlet.code.Validator;
 import hexlet.code.schemas.MapSchema;
 
-Validator validator = new Validator();
-
-MapSchema mapSchema = new MapSchema();
-
 public class Example {
     public static void main(String[] args) {
 
@@ -153,5 +149,92 @@ public class Example {
 ```
 
 ## Проверка валидности
+<p>
+После того как схема валидации была настроена, можно приступить к проверке данных. Для этого нужно вызвать метод 
+isValid() на сконфигурированной схеме и передать ему данные, которые нужно провалидировать. Результатом работы будет 
+логическое значение true,если данные соответствуют всем заданным в схеме правилам, или false, если не соответствуют.
+</p>
+
+#### Пример использования
+
+```java
+import hexlet.code.Validator;
+import hexlet.code.schemas.MapSchema;
+import hexlet.code.schemas.NumberSchema;
+import hexlet.code.schemas.StringSchema;
+
+import java.util.Map;
+
+public class Example {
+    public static void main(String[] args) {
+        Validator validator = new Validator();
+
+        // Проверка на валибность объекта String
+        StringSchema stringSchema = validator.string();
+        boolean isValidString = stringSchema.isValid("Test String");
+
+        // Проверка на валибность числа
+        NumberSchema numberSchema = validator.number();
+        boolean isValidNumber = numberSchema.isValid(4);
+
+        // Проверка на валибность объекта Map
+        MapSchema mapSchema = validator.map();
+        boolean isValidMap = mapSchema.isValid(new Map<Object, Object>());
+    }
+}
+```
 
 ## Функция shape()
+
+<p>
+Метод shape() используется для определения свойств объекта Map и создания схемы для валидации их значений. 
+Каждому свойству объекта Map привязывается свой набор ограничений (своя схема), что позволяет более точно контролировать
+данные.
+</p>
+
+#### Пример использования
+
+```java
+import hexlet.code.Validator;
+import hexlet.code.schemas.MapSchema;
+import hexlet.code.schemas.BaseSchema;
+
+public class Example {
+    public static void main(String[] args) {
+        var v = new Validator();
+
+        var schema = v.map();
+
+        // shape позволяет описывать валидацию для значений каждого ключа объекта Map
+        // Создаем набор схем для проверки каждого ключа проверяемого объекта
+        // Для значения каждого ключа - своя схема
+        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+
+        // Определяем схемы валидации для значений свойств "firstName" и "lastName"
+        // Имя должно быть строкой, обязательно для заполнения
+        schemas.put("firstName", v.string().required());
+        // Фамилия обязательна для заполнения и должна содержать не менее 2 символов
+        schemas.put("lastName", v.string().required().minLength(2));
+
+        // Настраиваем схему `MapSchema`
+        // Передаем созданный набор схем в метод shape()
+        schema.shape(schemas);
+
+        // Проверяем объекты
+        Map<String, String> human1 = new HashMap<>();
+        human1.put("firstName", "John");
+        human1.put("lastName", "Smith");
+        schema.isValid(human1); // true
+
+        Map<String, String> human2 = new HashMap<>();
+        human2.put("firstName", "John");
+        human2.put("lastName", null);
+        schema.isValid(human2); // false
+
+        Map<String, String> human3 = new HashMap<>();
+        human3.put("firstName", "Anna");
+        human3.put("lastName", "B");
+        schema.isValid(human3); // false
+    }
+}
+```
